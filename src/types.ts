@@ -1,4 +1,11 @@
-import { serializedNodeWithId, idNodeMap, INode } from 'rrweb-snapshot';
+import {
+  serializedNodeWithId,
+  idNodeMap,
+  INode,
+  MaskInputOptions,
+} from 'rrweb-snapshot';
+import { PackFn, UnpackFn } from './packer/base';
+import { FontFaceDescriptors } from 'css-font-loading-module';
 
 export enum EventType {
   DomContentLoaded,
@@ -6,6 +13,7 @@ export enum EventType {
   FullSnapshot,
   IncrementalSnapshot,
   Meta,
+  Custom,
 }
 
 export type domContentLoadedEvent = {
@@ -43,6 +51,16 @@ export type metaEvent = {
   };
 };
 
+export type customEvent<T = unknown> = {
+  type: EventType.Custom;
+  data: {
+    tag: string;
+    payload: T;
+  };
+};
+
+export type styleSheetEvent = {};
+
 export enum IncrementalSource {
   Mutation,
   MouseMove,
@@ -50,6 +68,11 @@ export enum IncrementalSource {
   Scroll,
   ViewportResize,
   Input,
+  TouchMove,
+  MediaInteraction,
+  StyleSheetRule,
+  CanvasMutation,
+  Font,
 }
 
 export type mutationData = {
@@ -57,7 +80,7 @@ export type mutationData = {
 } & mutationCallbackParam;
 
 export type mousemoveData = {
-  source: IncrementalSource.MouseMove;
+  source: IncrementalSource.MouseMove | IncrementalSource.TouchMove;
   positions: mousePosition[];
 };
 
@@ -71,12 +94,28 @@ export type scrollData = {
 
 export type viewportResizeData = {
   source: IncrementalSource.ViewportResize;
-} & viewportResizeDimension;
+} & viewportResizeDimention;
 
 export type inputData = {
   source: IncrementalSource.Input;
   id: number;
 } & inputValue;
+
+export type mediaInteractionData = {
+  source: IncrementalSource.MediaInteraction;
+} & mediaInteractionParam;
+
+export type styleSheetRuleData = {
+  source: IncrementalSource.StyleSheetRule;
+} & styleSheetRuleParam;
+
+export type canvasMutationData = {
+  source: IncrementalSource.CanvasMutation;
+} & canvasMutationParam;
+
+export type fontData = {
+  source: IncrementalSource.Font;
+} & fontParam;
 
 export type incrementalData =
   | mutationData
@@ -84,14 +123,19 @@ export type incrementalData =
   | mouseInteractionData
   | scrollData
   | viewportResizeData
-  | inputData;
+  | inputData
+  | mediaInteractionData
+  | styleSheetRuleData
+  | canvasMutationData
+  | fontData;
 
 export type event =
   | domContentLoadedEvent
   | loadedEvent
   | fullSnapshotEvent
   | incrementalSnapshotEvent
-  | metaEvent;
+  | metaEvent
+  | customEvent;
 
 export type eventWithTime = event & {
   timestamp: number;
@@ -100,12 +144,44 @@ export type eventWithTime = event & {
 
 export type blockClass = string | RegExp;
 
-export type recordOptions = {
-  emit?: (e: eventWithTime, isCheckout?: boolean) => void;
+export type SamplingStrategy = Partial<{
+  /**
+   * false means not to record mouse/touch move events
+   * number is the throttle threshold of recording mouse/touch move
+   */
+  mousemove: boolean | number;
+  /**
+   * false means not to record mouse interaction events
+   * can also specify record some kinds of mouse interactions
+   */
+  mouseInteraction: boolean | Record<string, boolean | undefined>;
+  /**
+   * number is the throttle threshold of recording scroll
+   */
+  scroll: number;
+  /**
+   * 'all' will record all the input events
+   * 'last' will only record the last input value while input a sequence of chars
+   */
+  input: 'all' | 'last';
+}>;
+
+export type recordOptions<T> = {
+  emit?: (e: T, isCheckout?: boolean) => void;
   checkoutEveryNth?: number;
   checkoutEveryNms?: number;
   blockClass?: blockClass;
   ignoreClass?: string;
+  maskAllInputs?: boolean;
+  maskInputOptions?: MaskInputOptions;
+  inlineStylesheet?: boolean;
+  hooks?: hooksParam;
+  packFn?: PackFn;
+  sampling?: SamplingStrategy;
+  recordCanvas?: boolean;
+  collectFonts?: boolean;
+  // departed, please use sampling options
+  mousemoveWait?: number;
 };
 
 export type observerParam = {
@@ -115,10 +191,42 @@ export type observerParam = {
   scrollCb: scrollCallback;
   viewportResizeCb: viewportResizeCallback;
   inputCb: inputCallback;
+  mediaInteractionCb: mediaInteractionCallback;
   blockClass: blockClass;
   ignoreClass: string;
   doc: Document;
   dimension: documentDimension;
+  maskInputOptions: MaskInputOptions;
+  inlineStylesheet: boolean;
+  styleSheetRuleCb: styleSheetRuleCallback;
+  canvasMutationCb: canvasMutationCallback;
+  fontCb: fontCallback;
+  sampling: SamplingStrategy;
+  recordCanvas: boolean;
+  collectFonts: boolean;
+};
+
+export type hooksParam = {
+  mutation?: mutationCallBack;
+  mousemove?: mousemoveCallBack;
+  mouseInteraction?: mouseInteractionCallBack;
+  scroll?: scrollCallback;
+  viewportResize?: viewportResizeCallback;
+  input?: inputCallback;
+  mediaInteaction?: mediaInteractionCallback;
+  styleSheetRule?: styleSheetRuleCallback;
+  canvasMutation?: canvasMutationCallback;
+  font?: fontCallback;
+};
+
+// https://dom.spec.whatwg.org/#interface-mutationrecord
+export type mutationRecord = {
+  type: string;
+  target: Node;
+  oldValue: string | null;
+  addedNodes: NodeList;
+  removedNodes: NodeList;
+  attributeName: string | null;
 };
 
 export type textCursor = {
@@ -150,7 +258,8 @@ export type removedNodeMutation = {
 
 export type addedNodeMutation = {
   parentId: number;
-  previousId: number | null;
+  // Newly recorded mutations will not have previousId any more, just for compatibility
+  previousId?: number | null;
   nextId: number | null;
   node: serializedNodeWithId;
 };
@@ -164,7 +273,10 @@ type mutationCallbackParam = {
 
 export type mutationCallBack = (m: mutationCallbackParam) => void;
 
-export type mousemoveCallBack = (p: mousePosition[]) => void;
+export type mousemoveCallBack = (
+  p: mousePosition[],
+  source: IncrementalSource.MouseMove | IncrementalSource.TouchMove,
+) => void;
 
 export type mousePosition = {
   x: number;
@@ -182,7 +294,7 @@ export enum MouseInteractions {
   Focus,
   Blur,
   TouchStart,
-  TouchMove,
+  TouchMove_Departed, // we will start a separate observer for touch move event
   TouchEnd,
 }
 
@@ -203,12 +315,47 @@ export type scrollPosition = {
 
 export type scrollCallback = (p: scrollPosition) => void;
 
-export type viewportResizeDimension = {
+export type styleSheetAddRule = {
+  rule: string;
+  index?: number;
+};
+
+export type styleSheetDeleteRule = {
+  index: number;
+};
+
+export type styleSheetRuleParam = {
+  id: number;
+  removes?: styleSheetDeleteRule[];
+  adds?: styleSheetAddRule[];
+};
+
+export type styleSheetRuleCallback = (s: styleSheetRuleParam) => void;
+
+export type canvasMutationCallback = (p: canvasMutationParam) => void;
+
+export type canvasMutationParam = {
+  id: number;
+  property: string;
+  args: Array<unknown>;
+  setter?: true;
+};
+
+export type fontParam = {
+  family: string;
+  fontSource: string;
+  buffer: boolean;
+  descriptors?: FontFaceDescriptors;
+};
+
+export type fontCallback = (p: fontParam) => void;
+
+export type viewportResizeDimention = {
   width: number;
   height: number;
 };
 
-export type viewportResizeCallback = (d: viewportResizeDimension) => void;
+export type viewportResizeCallback = (d: viewportResizeDimention) => void;
 
 export type inputValue = {
   text: string;
@@ -221,6 +368,18 @@ export type documentDimension = {
   x: number;
   y: number;
 };
+
+export const enum MediaInteractions {
+  Play,
+  Pause,
+}
+
+export type mediaInteractionParam = {
+  type: MediaInteractions;
+  id: number;
+};
+
+export type mediaInteractionCallback = (p: mediaInteractionParam) => void;
 
 export type Mirror = {
   map: idNodeMap;
@@ -246,9 +405,24 @@ export type playerConfig = {
   showWarning: boolean;
   showDebug: boolean;
   blockClass: string;
+  liveMode: boolean;
+  insertStyleRules: string[];
+  triggerFocus: boolean;
+  UNSAFE_replayCanvas: boolean;
+  mouseTail:
+    | boolean
+    | {
+        duration?: number;
+        lineCap?: string;
+        lineWidth?: number;
+        strokeStyle?: string;
+      };
+  unpackFn?: UnpackFn;
 };
 
 export type playerMetaData = {
+  startTime: number;
+  endTime: number;
   totalTime: number;
 };
 
@@ -265,6 +439,18 @@ export type actionWithDelay = {
   delay: number;
 };
 
+export type Handler = (event?: unknown) => void;
+
+export type Emitter = {
+  on(type: string, handler: Handler): void;
+  emit(type: string, event?: unknown): void;
+  off(type: string, handler: Handler): void;
+};
+
+export type Arguments<T> = T extends (...payload: infer U) => unknown
+  ? U
+  : unknown;
+
 export enum ReplayerEvents {
   Start = 'start',
   Pause = 'pause',
@@ -277,4 +463,8 @@ export enum ReplayerEvents {
   SkipStart = 'skip-start',
   SkipEnd = 'skip-end',
   MouseInteraction = 'mouse-interaction',
+  EventCast = 'event-cast',
+  CustomEvent = 'custom-event',
+  Flush = 'flush',
+  StateChange = 'state-change',
 }

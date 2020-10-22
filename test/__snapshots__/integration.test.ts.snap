@@ -285,8 +285,9 @@ exports[`block 1`] = `
                     \\"tagName\\": \\"div\\",
                     \\"attributes\\": {
                       \\"class\\": \\"rr-block\\",
-                      \\"rr_width\\": \\"1904px\\",
-                      \\"rr_height\\": \\"21px\\"
+                      \\"style\\": \\"width: 50px; height: 50px;\\",
+                      \\"rr_width\\": \\"50px\\",
+                      \\"rr_height\\": \\"50px\\"
                     },
                     \\"childNodes\\": [],
                     \\"id\\": 18
@@ -327,6 +328,230 @@ exports[`block 1`] = `
         \\"left\\": 0,
         \\"top\\": 0
       }
+    }
+  }
+]"
+`;
+
+exports[`canvas 1`] = `
+"[
+  {
+    \\"type\\": 0,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 1,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 4,
+    \\"data\\": {
+      \\"href\\": \\"about:blank\\",
+      \\"width\\": 1920,
+      \\"height\\": 1080
+    }
+  },
+  {
+    \\"type\\": 2,
+    \\"data\\": {
+      \\"node\\": {
+        \\"type\\": 0,
+        \\"childNodes\\": [
+          {
+            \\"type\\": 1,
+            \\"name\\": \\"html\\",
+            \\"publicId\\": \\"\\",
+            \\"systemId\\": \\"\\",
+            \\"id\\": 2
+          },
+          {
+            \\"type\\": 2,
+            \\"tagName\\": \\"html\\",
+            \\"attributes\\": {
+              \\"lang\\": \\"en\\"
+            },
+            \\"childNodes\\": [
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"head\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 5
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"charset\\": \\"UTF-8\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 6
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 7
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"name\\": \\"viewport\\",
+                      \\"content\\": \\"width=device-width, initial-scale=1.0\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 8
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 9
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"title\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"canvas\\",
+                        \\"id\\": 11
+                      }
+                    ],
+                    \\"id\\": 10
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 12
+                  }
+                ],
+                \\"id\\": 4
+              },
+              {
+                \\"type\\": 3,
+                \\"textContent\\": \\"\\\\n  \\",
+                \\"id\\": 13
+              },
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"body\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 15
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"canvas\\",
+                    \\"attributes\\": {
+                      \\"id\\": \\"myCanvas\\",
+                      \\"width\\": \\"200\\",
+                      \\"height\\": \\"100\\",
+                      \\"style\\": \\"border: 1px solid #000000;\\",
+                      \\"rr_dataURL\\": \\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABkCAYAAADDhn8LAAAEK0lEQVR4Xu3d3VLjMAyG4YZzuBvu/9K6w2xZtqVJFcv5Ux5mOCgQ43yJ8lqSpQwXXxSgwKgCA20oQIFxBRiIu4MCEwowELcHBRiIe4ACbQogSJtujjqJAgzkJBfaabYpwEDadHPUSRRgICe50E6zTQEG0qabo06iQNhAru/v18vb2+UyDD/fY5+/fv719f37Z58j43z/zdQ4j/8nMq75/b2Grdelo37D52f4HtzCJsOTu358XLsZx5Y3deTimt/Pw63lITVDvzoGgiDrkTNixBFSttzckXE7zq+OgSDIz7Lk2U3U66aJjDPjCT25zF1qnBnj1jEQBEGQ3r7gMFzqGAiCIMiYY58IyNQxEARBEAQZD6SJYt3C20uHtvkgW0RzR/9nPMyLIAiCIAiyefIMQRAknJE/QBz/X0Y66sCunGfY+/zqOOmiWKJY0YeAPMhKDiuC5PZMHUA/BImsqddcdkTmM+MJuPdM9d7nV8dARLFEsUSxRLFEsTosn2cQGEEydQcHWEPvPUq09/nVMRBRLFEsUayJJRYfhA/CB+GD8EH4IP9bgb1YfKT73gFrhtzVg4w0BpgR5dh7HN/8cg066jjpfBA+CB+ED8IH4YPwQSLbTSJrcXma9F6xOksseRB5EHkQeZC7zPMjIV597kWmXuMcgHAI0utirzmOKJvOijdWyIPIg8iDTBT5xg2ED8IH4YPwQfgg63bv54Os6TtEQrOR+fBB+CB8EO8v2Twpai+WvVh3e7UQ7heZ6iyx7MWyF8teLHuxNl92nMxHQhB5hk3zDGrSc51M5UEiT+xevkOvcQpF2RAEQRBk7JURoliiWKJY068ORxAEQRAEuZFigb06ar5zNd971w9BEARBEARBnuZPloo2LTXuBlE2BEEQBEEQBEGQW7TqWV5pgkwIgiAIgiAIgiAIcg2/nbbX9o0DdOXY+16nvc+vzhJLTbqa9AXyXHUMRD2IehD1IOpB1IPozas3Lx8p11O3o351llh8ED4IH0RfLH2x9MVqW2IhCIIgCIIgCIIgyONu2Fefe+1y7TWO3by5Tgwzjo43bZAHkQeRB5EHkQeRB2lbYiEIgiAIgiAIgiBIx0zw3nfL7n1+Mum9bsY1xykUJdLVZEbI6smfimKpeNy04hFB1nzyyzPk3gy1gX51DEQUSxRLFEsUSxRLFEsUq9eyT818rq5Ed3fd3XV3193999rcEzr3ZD2RfnWcdPUg6kHUg6gHUQ+iHqTNSUcQBEEQBEEQBEGQVxWE9mLlMvIz9KvjpMuky6TLpMuky6TLpLctsRAEQRAEQRAEQZoIkis7cTQFjqlAuGDqmKdn1hTIKcBAcvo5urgCDKT4BXZ6OQUYSE4/RxdXgIEUv8BOL6cAA8np5+jiCjCQ4hfY6eUUYCA5/RxdXAEGUvwCO72cAn8Aw0BAdBcYDcUAAAAASUVORK5CYII=\\"
+                    },
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 17
+                      }
+                    ],
+                    \\"id\\": 16
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 18
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 20
+                      }
+                    ],
+                    \\"id\\": 19
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\\\n    \\",
+                    \\"id\\": 21
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 23
+                      }
+                    ],
+                    \\"id\\": 22
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\\\n    \\\\n\\\\n\\",
+                    \\"id\\": 24
+                  }
+                ],
+                \\"id\\": 14
+              }
+            ],
+            \\"id\\": 3
+          }
+        ],
+        \\"id\\": 1
+      },
+      \\"initialOffset\\": {
+        \\"left\\": 0,
+        \\"top\\": 0
+      }
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 9,
+      \\"id\\": 16,
+      \\"property\\": \\"moveTo\\",
+      \\"args\\": [
+        0,
+        0
+      ]
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 9,
+      \\"id\\": 16,
+      \\"property\\": \\"lineTo\\",
+      \\"args\\": [
+        200,
+        100
+      ]
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 9,
+      \\"id\\": 16,
+      \\"property\\": \\"stroke\\",
+      \\"args\\": []
     }
   }
 ]"
@@ -478,7 +703,6 @@ exports[`character-data 1`] = `
       \\"adds\\": [
         {
           \\"parentId\\": 6,
-          \\"previousId\\": null,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 3,
@@ -634,7 +858,6 @@ exports[`child-list 1`] = `
       \\"adds\\": [
         {
           \\"parentId\\": 6,
-          \\"previousId\\": 7,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 2,
@@ -1338,6 +1561,173 @@ exports[`form 1`] = `
 ]"
 `;
 
+exports[`frozen 1`] = `
+"[
+  {
+    \\"type\\": 0,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 1,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 4,
+    \\"data\\": {
+      \\"href\\": \\"about:blank\\",
+      \\"width\\": 1920,
+      \\"height\\": 1080
+    }
+  },
+  {
+    \\"type\\": 2,
+    \\"data\\": {
+      \\"node\\": {
+        \\"type\\": 0,
+        \\"childNodes\\": [
+          {
+            \\"type\\": 2,
+            \\"tagName\\": \\"html\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"head\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [],
+                \\"id\\": 3
+              },
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"body\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 5
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"p\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"mutation observer\\",
+                        \\"id\\": 7
+                      }
+                    ],
+                    \\"id\\": 6
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 8
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"ul\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 10
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"li\\",
+                        \\"attributes\\": {},
+                        \\"childNodes\\": [],
+                        \\"id\\": 11
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n  \\",
+                        \\"id\\": 12
+                      }
+                    ],
+                    \\"id\\": 9
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n\\\\n    \\",
+                    \\"id\\": 13
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 15
+                      }
+                    ],
+                    \\"id\\": 14
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\\\n    \\",
+                    \\"id\\": 16
+                  }
+                ],
+                \\"id\\": 4
+              }
+            ],
+            \\"id\\": 2
+          }
+        ],
+        \\"id\\": 1
+      },
+      \\"initialOffset\\": {
+        \\"left\\": 0,
+        \\"top\\": 0
+      }
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 0,
+      \\"texts\\": [],
+      \\"attributes\\": [
+        {
+          \\"id\\": 17,
+          \\"attributes\\": {
+            \\"foo\\": \\"bar\\"
+          }
+        },
+        {
+          \\"id\\": 4,
+          \\"attributes\\": {
+            \\"test\\": \\"true\\"
+          }
+        }
+      ],
+      \\"removes\\": [],
+      \\"adds\\": [
+        {
+          \\"parentId\\": 9,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"li\\",
+            \\"attributes\\": {
+              \\"foo\\": \\"bar\\"
+            },
+            \\"childNodes\\": [],
+            \\"id\\": 17
+          }
+        }
+      ]
+    }
+  }
+]"
+`;
+
 exports[`ignore 1`] = `
 "[
   {
@@ -1613,7 +2003,1383 @@ exports[`ignore 1`] = `
 ]"
 `;
 
-exports[`move-node 1`] = `
+exports[`mask 1`] = `
+"[
+  {
+    \\"type\\": 0,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 1,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 4,
+    \\"data\\": {
+      \\"href\\": \\"about:blank\\",
+      \\"width\\": 1920,
+      \\"height\\": 1080
+    }
+  },
+  {
+    \\"type\\": 2,
+    \\"data\\": {
+      \\"node\\": {
+        \\"type\\": 0,
+        \\"childNodes\\": [
+          {
+            \\"type\\": 1,
+            \\"name\\": \\"html\\",
+            \\"publicId\\": \\"\\",
+            \\"systemId\\": \\"\\",
+            \\"id\\": 2
+          },
+          {
+            \\"type\\": 2,
+            \\"tagName\\": \\"html\\",
+            \\"attributes\\": {
+              \\"lang\\": \\"en\\"
+            },
+            \\"childNodes\\": [
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"head\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 5
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"charset\\": \\"UTF-8\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 6
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 7
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"name\\": \\"viewport\\",
+                      \\"content\\": \\"width=device-width, initial-scale=1.0\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 8
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 9
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"http-equiv\\": \\"X-UA-Compatible\\",
+                      \\"content\\": \\"ie=edge\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 10
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 11
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"title\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"form fields\\",
+                        \\"id\\": 13
+                      }
+                    ],
+                    \\"id\\": 12
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n\\",
+                    \\"id\\": 14
+                  }
+                ],
+                \\"id\\": 4
+              },
+              {
+                \\"type\\": 3,
+                \\"textContent\\": \\"\\\\n\\\\n\\",
+                \\"id\\": 15
+              },
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"body\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 17
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"form\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 19
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"text\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 21
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"input\\",
+                            \\"attributes\\": {
+                              \\"type\\": \\"text\\"
+                            },
+                            \\"childNodes\\": [],
+                            \\"id\\": 22
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 23
+                          }
+                        ],
+                        \\"id\\": 20
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 24
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"radio\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 26
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"input\\",
+                            \\"attributes\\": {
+                              \\"type\\": \\"radio\\"
+                            },
+                            \\"childNodes\\": [],
+                            \\"id\\": 27
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 28
+                          }
+                        ],
+                        \\"id\\": 25
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 29
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"checkbox\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 31
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"input\\",
+                            \\"attributes\\": {
+                              \\"type\\": \\"checkbox\\"
+                            },
+                            \\"childNodes\\": [],
+                            \\"id\\": 32
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 33
+                          }
+                        ],
+                        \\"id\\": 30
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 34
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"textarea\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 36
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"textarea\\",
+                            \\"attributes\\": {
+                              \\"name\\": \\"\\",
+                              \\"id\\": \\"\\",
+                              \\"cols\\": \\"30\\",
+                              \\"rows\\": \\"10\\"
+                            },
+                            \\"childNodes\\": [],
+                            \\"id\\": 37
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 38
+                          }
+                        ],
+                        \\"id\\": 35
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 39
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"select\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 41
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"select\\",
+                            \\"attributes\\": {
+                              \\"name\\": \\"\\",
+                              \\"id\\": \\"\\",
+                              \\"value\\": \\"*\\"
+                            },
+                            \\"childNodes\\": [
+                              {
+                                \\"type\\": 3,
+                                \\"textContent\\": \\"\\\\n        \\",
+                                \\"id\\": 43
+                              },
+                              {
+                                \\"type\\": 2,
+                                \\"tagName\\": \\"option\\",
+                                \\"attributes\\": {
+                                  \\"value\\": \\"1\\",
+                                  \\"selected\\": true
+                                },
+                                \\"childNodes\\": [
+                                  {
+                                    \\"type\\": 3,
+                                    \\"textContent\\": \\"1\\",
+                                    \\"id\\": 45
+                                  }
+                                ],
+                                \\"id\\": 44
+                              },
+                              {
+                                \\"type\\": 3,
+                                \\"textContent\\": \\"\\\\n        \\",
+                                \\"id\\": 46
+                              },
+                              {
+                                \\"type\\": 2,
+                                \\"tagName\\": \\"option\\",
+                                \\"attributes\\": {
+                                  \\"value\\": \\"2\\"
+                                },
+                                \\"childNodes\\": [
+                                  {
+                                    \\"type\\": 3,
+                                    \\"textContent\\": \\"2\\",
+                                    \\"id\\": 48
+                                  }
+                                ],
+                                \\"id\\": 47
+                              },
+                              {
+                                \\"type\\": 3,
+                                \\"textContent\\": \\"\\\\n      \\",
+                                \\"id\\": 49
+                              }
+                            ],
+                            \\"id\\": 42
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 50
+                          }
+                        ],
+                        \\"id\\": 40
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n  \\",
+                        \\"id\\": 51
+                      }
+                    ],
+                    \\"id\\": 18
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n\\\\n    \\",
+                    \\"id\\": 52
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 54
+                      }
+                    ],
+                    \\"id\\": 53
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\\\n    \\\\n\\\\n\\\\n\\",
+                    \\"id\\": 55
+                  }
+                ],
+                \\"id\\": 16
+              }
+            ],
+            \\"id\\": 3
+          }
+        ],
+        \\"id\\": 1
+      },
+      \\"initialOffset\\": {
+        \\"left\\": 0,
+        \\"top\\": 0
+      }
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 5,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"*\\",
+      \\"isChecked\\": false,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"**\\",
+      \\"isChecked\\": false,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"***\\",
+      \\"isChecked\\": false,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"****\\",
+      \\"isChecked\\": false,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 1,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 6,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 5,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 0,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 2,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"on\\",
+      \\"isChecked\\": true,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 1,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 6,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 5,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 0,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 2,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"on\\",
+      \\"isChecked\\": true,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 6,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 5,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"*\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"**\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"***\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"****\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"*****\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"******\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"*******\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"********\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"*********\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"**********\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"***********\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"************\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"*************\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"*\\",
+      \\"isChecked\\": false,
+      \\"id\\": 42
+    }
+  }
+]"
+`;
+
+exports[`maskInputOptions 1`] = `
+"[
+  {
+    \\"type\\": 0,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 1,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 4,
+    \\"data\\": {
+      \\"href\\": \\"about:blank\\",
+      \\"width\\": 1920,
+      \\"height\\": 1080
+    }
+  },
+  {
+    \\"type\\": 2,
+    \\"data\\": {
+      \\"node\\": {
+        \\"type\\": 0,
+        \\"childNodes\\": [
+          {
+            \\"type\\": 1,
+            \\"name\\": \\"html\\",
+            \\"publicId\\": \\"\\",
+            \\"systemId\\": \\"\\",
+            \\"id\\": 2
+          },
+          {
+            \\"type\\": 2,
+            \\"tagName\\": \\"html\\",
+            \\"attributes\\": {
+              \\"lang\\": \\"en\\"
+            },
+            \\"childNodes\\": [
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"head\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 5
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"charset\\": \\"UTF-8\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 6
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 7
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"name\\": \\"viewport\\",
+                      \\"content\\": \\"width=device-width, initial-scale=1.0\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 8
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 9
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"http-equiv\\": \\"X-UA-Compatible\\",
+                      \\"content\\": \\"ie=edge\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 10
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 11
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"title\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"form fields\\",
+                        \\"id\\": 13
+                      }
+                    ],
+                    \\"id\\": 12
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n\\",
+                    \\"id\\": 14
+                  }
+                ],
+                \\"id\\": 4
+              },
+              {
+                \\"type\\": 3,
+                \\"textContent\\": \\"\\\\n\\\\n\\",
+                \\"id\\": 15
+              },
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"body\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 17
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"form\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 19
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"text\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 21
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"input\\",
+                            \\"attributes\\": {
+                              \\"type\\": \\"text\\"
+                            },
+                            \\"childNodes\\": [],
+                            \\"id\\": 22
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 23
+                          }
+                        ],
+                        \\"id\\": 20
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 24
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"radio\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 26
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"input\\",
+                            \\"attributes\\": {
+                              \\"type\\": \\"radio\\"
+                            },
+                            \\"childNodes\\": [],
+                            \\"id\\": 27
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 28
+                          }
+                        ],
+                        \\"id\\": 25
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 29
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"checkbox\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 31
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"input\\",
+                            \\"attributes\\": {
+                              \\"type\\": \\"checkbox\\"
+                            },
+                            \\"childNodes\\": [],
+                            \\"id\\": 32
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 33
+                          }
+                        ],
+                        \\"id\\": 30
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 34
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"textarea\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 36
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"textarea\\",
+                            \\"attributes\\": {
+                              \\"name\\": \\"\\",
+                              \\"id\\": \\"\\",
+                              \\"cols\\": \\"30\\",
+                              \\"rows\\": \\"10\\"
+                            },
+                            \\"childNodes\\": [],
+                            \\"id\\": 37
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 38
+                          }
+                        ],
+                        \\"id\\": 35
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 39
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"label\\",
+                        \\"attributes\\": {
+                          \\"for\\": \\"select\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 41
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"select\\",
+                            \\"attributes\\": {
+                              \\"name\\": \\"\\",
+                              \\"id\\": \\"\\",
+                              \\"value\\": \\"1\\"
+                            },
+                            \\"childNodes\\": [
+                              {
+                                \\"type\\": 3,
+                                \\"textContent\\": \\"\\\\n        \\",
+                                \\"id\\": 43
+                              },
+                              {
+                                \\"type\\": 2,
+                                \\"tagName\\": \\"option\\",
+                                \\"attributes\\": {
+                                  \\"value\\": \\"1\\",
+                                  \\"selected\\": true
+                                },
+                                \\"childNodes\\": [
+                                  {
+                                    \\"type\\": 3,
+                                    \\"textContent\\": \\"1\\",
+                                    \\"id\\": 45
+                                  }
+                                ],
+                                \\"id\\": 44
+                              },
+                              {
+                                \\"type\\": 3,
+                                \\"textContent\\": \\"\\\\n        \\",
+                                \\"id\\": 46
+                              },
+                              {
+                                \\"type\\": 2,
+                                \\"tagName\\": \\"option\\",
+                                \\"attributes\\": {
+                                  \\"value\\": \\"2\\"
+                                },
+                                \\"childNodes\\": [
+                                  {
+                                    \\"type\\": 3,
+                                    \\"textContent\\": \\"2\\",
+                                    \\"id\\": 48
+                                  }
+                                ],
+                                \\"id\\": 47
+                              },
+                              {
+                                \\"type\\": 3,
+                                \\"textContent\\": \\"\\\\n      \\",
+                                \\"id\\": 49
+                              }
+                            ],
+                            \\"id\\": 42
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n    \\",
+                            \\"id\\": 50
+                          }
+                        ],
+                        \\"id\\": 40
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n  \\",
+                        \\"id\\": 51
+                      }
+                    ],
+                    \\"id\\": 18
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n\\\\n    \\",
+                    \\"id\\": 52
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 54
+                      }
+                    ],
+                    \\"id\\": 53
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\\\n    \\\\n\\\\n\\\\n\\",
+                    \\"id\\": 55
+                  }
+                ],
+                \\"id\\": 16
+              }
+            ],
+            \\"id\\": 3
+          }
+        ],
+        \\"id\\": 1
+      },
+      \\"initialOffset\\": {
+        \\"left\\": 0,
+        \\"top\\": 0
+      }
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 5,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"t\\",
+      \\"isChecked\\": false,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"te\\",
+      \\"isChecked\\": false,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"tes\\",
+      \\"isChecked\\": false,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"test\\",
+      \\"isChecked\\": false,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 1,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 6,
+      \\"id\\": 22
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 5,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 0,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 2,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"on\\",
+      \\"isChecked\\": true,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 1,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 6,
+      \\"id\\": 27
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 5,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 0,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 2,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"on\\",
+      \\"isChecked\\": true,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 6,
+      \\"id\\": 32
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 5,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"t\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"te\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"tex\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"text\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"texta\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"textar\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"textare\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"textarea\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"textarea \\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"textarea t\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"textarea te\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"textarea tes\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"textarea test\\",
+      \\"isChecked\\": false,
+      \\"id\\": 37
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 5,
+      \\"text\\": \\"1\\",
+      \\"isChecked\\": false,
+      \\"id\\": 42
+    }
+  }
+]"
+`;
+
+exports[`move-node-1 1`] = `
 "[
   {
     \\"type\\": 0,
@@ -1791,11 +3557,337 @@ exports[`move-node 1`] = `
       \\"adds\\": [
         {
           \\"parentId\\": 6,
-          \\"previousId\\": 9,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 2,
             \\"tagName\\": \\"span\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [],
+            \\"id\\": 11
+          }
+        },
+        {
+          \\"parentId\\": 11,
+          \\"nextId\\": 13,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"\\\\n      \\",
+            \\"id\\": 12
+          }
+        },
+        {
+          \\"parentId\\": 11,
+          \\"nextId\\": 18,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"i\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [],
+            \\"id\\": 13
+          }
+        },
+        {
+          \\"parentId\\": 13,
+          \\"nextId\\": 15,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"\\\\n        \\",
+            \\"id\\": 14
+          }
+        },
+        {
+          \\"parentId\\": 13,
+          \\"nextId\\": 17,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"b\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [],
+            \\"id\\": 15
+          }
+        },
+        {
+          \\"parentId\\": 15,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"1\\",
+            \\"id\\": 16
+          }
+        },
+        {
+          \\"parentId\\": 13,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"\\\\n      \\",
+            \\"id\\": 17
+          }
+        },
+        {
+          \\"parentId\\": 11,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"\\\\n    \\",
+            \\"id\\": 18
+          }
+        }
+      ]
+    }
+  }
+]"
+`;
+
+exports[`move-node-2 1`] = `
+"[
+  {
+    \\"type\\": 0,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 1,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 4,
+    \\"data\\": {
+      \\"href\\": \\"about:blank\\",
+      \\"width\\": 1920,
+      \\"height\\": 1080
+    }
+  },
+  {
+    \\"type\\": 2,
+    \\"data\\": {
+      \\"node\\": {
+        \\"type\\": 0,
+        \\"childNodes\\": [
+          {
+            \\"type\\": 2,
+            \\"tagName\\": \\"html\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"head\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [],
+                \\"id\\": 3
+              },
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"body\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 5
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"div\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n      \\",
+                        \\"id\\": 7
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"p\\",
+                        \\"attributes\\": {},
+                        \\"childNodes\\": [],
+                        \\"id\\": 8
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 9
+                      }
+                    ],
+                    \\"id\\": 6
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 10
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"span\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n      \\",
+                        \\"id\\": 12
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"i\\",
+                        \\"attributes\\": {},
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n        \\",
+                            \\"id\\": 14
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"b\\",
+                            \\"attributes\\": {},
+                            \\"childNodes\\": [
+                              {
+                                \\"type\\": 3,
+                                \\"textContent\\": \\"1\\",
+                                \\"id\\": 16
+                              }
+                            ],
+                            \\"id\\": 15
+                          },
+                          {
+                            \\"type\\": 3,
+                            \\"textContent\\": \\"\\\\n      \\",
+                            \\"id\\": 17
+                          }
+                        ],
+                        \\"id\\": 13
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 18
+                      }
+                    ],
+                    \\"id\\": 11
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\\\n    \\",
+                    \\"id\\": 19
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 21
+                      }
+                    ],
+                    \\"id\\": 20
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\\\n    \\\\n\\\\n\\",
+                    \\"id\\": 22
+                  }
+                ],
+                \\"id\\": 4
+              }
+            ],
+            \\"id\\": 2
+          }
+        ],
+        \\"id\\": 1
+      },
+      \\"initialOffset\\": {
+        \\"left\\": 0,
+        \\"top\\": 0
+      }
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 0,
+      \\"texts\\": [],
+      \\"attributes\\": [],
+      \\"removes\\": [
+        {
+          \\"parentId\\": 4,
+          \\"id\\": 11
+        }
+      ],
+      \\"adds\\": [
+        {
+          \\"parentId\\": 11,
+          \\"nextId\\": 13,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"\\\\n      \\",
+            \\"id\\": 12
+          }
+        },
+        {
+          \\"parentId\\": 11,
+          \\"nextId\\": 18,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"i\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [],
+            \\"id\\": 13
+          }
+        },
+        {
+          \\"parentId\\": 13,
+          \\"nextId\\": 15,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"\\\\n        \\",
+            \\"id\\": 14
+          }
+        },
+        {
+          \\"parentId\\": 13,
+          \\"nextId\\": 17,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"b\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [],
+            \\"id\\": 15
+          }
+        },
+        {
+          \\"parentId\\": 15,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"1\\",
+            \\"id\\": 16
+          }
+        },
+        {
+          \\"parentId\\": 13,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"\\\\n      \\",
+            \\"id\\": 17
+          }
+        },
+        {
+          \\"parentId\\": 11,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"\\\\n    \\",
+            \\"id\\": 18
+          }
+        },
+        {
+          \\"parentId\\": 4,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"div\\",
             \\"attributes\\": {},
             \\"childNodes\\": [],
             \\"id\\": 23
@@ -1803,79 +3895,412 @@ exports[`move-node 1`] = `
         },
         {
           \\"parentId\\": 23,
-          \\"previousId\\": null,
-          \\"nextId\\": 13,
-          \\"node\\": {
-            \\"type\\": 3,
-            \\"textContent\\": \\"\\\\n      \\",
-            \\"id\\": 24
-          }
-        },
-        {
-          \\"parentId\\": 23,
-          \\"previousId\\": 24,
-          \\"nextId\\": 18,
+          \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 2,
-            \\"tagName\\": \\"i\\",
+            \\"tagName\\": \\"span\\",
             \\"attributes\\": {},
             \\"childNodes\\": [],
-            \\"id\\": 25
-          }
-        },
-        {
-          \\"parentId\\": 25,
-          \\"previousId\\": null,
-          \\"nextId\\": 15,
-          \\"node\\": {
-            \\"type\\": 3,
-            \\"textContent\\": \\"\\\\n        \\",
-            \\"id\\": 26
-          }
-        },
-        {
-          \\"parentId\\": 25,
-          \\"previousId\\": 26,
-          \\"nextId\\": 17,
-          \\"node\\": {
-            \\"type\\": 2,
-            \\"tagName\\": \\"b\\",
-            \\"attributes\\": {},
-            \\"childNodes\\": [],
-            \\"id\\": 27
-          }
-        },
-        {
-          \\"parentId\\": 27,
-          \\"previousId\\": null,
-          \\"nextId\\": null,
-          \\"node\\": {
-            \\"type\\": 3,
-            \\"textContent\\": \\"1\\",
-            \\"id\\": 28
-          }
-        },
-        {
-          \\"parentId\\": 25,
-          \\"previousId\\": 27,
-          \\"nextId\\": null,
-          \\"node\\": {
-            \\"type\\": 3,
-            \\"textContent\\": \\"\\\\n      \\",
-            \\"id\\": 29
-          }
-        },
-        {
-          \\"parentId\\": 23,
-          \\"previousId\\": 25,
-          \\"nextId\\": null,
-          \\"node\\": {
-            \\"type\\": 3,
-            \\"textContent\\": \\"\\\\n    \\",
-            \\"id\\": 30
+            \\"id\\": 11
           }
         }
       ]
+    }
+  }
+]"
+`;
+
+exports[`react-styled-components 1`] = `
+"[
+  {
+    \\"type\\": 0,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 1,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 4,
+    \\"data\\": {
+      \\"href\\": \\"about:blank\\",
+      \\"width\\": 1920,
+      \\"height\\": 1080
+    }
+  },
+  {
+    \\"type\\": 2,
+    \\"data\\": {
+      \\"node\\": {
+        \\"type\\": 0,
+        \\"childNodes\\": [
+          {
+            \\"type\\": 1,
+            \\"name\\": \\"html\\",
+            \\"publicId\\": \\"\\",
+            \\"systemId\\": \\"\\",
+            \\"id\\": 2
+          },
+          {
+            \\"type\\": 2,
+            \\"tagName\\": \\"html\\",
+            \\"attributes\\": {
+              \\"lang\\": \\"en\\"
+            },
+            \\"childNodes\\": [
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"head\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 5
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"charset\\": \\"UTF-8\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 6
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 7
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"name\\": \\"viewport\\",
+                      \\"content\\": \\"width=device-width, initial-scale=1.0\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 8
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 9
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"meta\\",
+                    \\"attributes\\": {
+                      \\"http-equiv\\": \\"X-UA-Compatible\\",
+                      \\"content\\": \\"ie=edge\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 10
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 11
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"title\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"react styled components\\",
+                        \\"id\\": 13
+                      }
+                    ],
+                    \\"id\\": 12
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 14
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 16
+                      }
+                    ],
+                    \\"id\\": 15
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"style\\",
+                    \\"attributes\\": {
+                      \\"data-styled\\": \\"active\\",
+                      \\"data-styled-version\\": \\"5.0.1\\",
+                      \\"_cssText\\": \\".ixzlRK { font-size: 1.5em; text-align: center; color: palevioletred; }.eOXmez { font-size: 1.5em; text-align: center; color: rebeccapurple; }.bJCmFu { padding: 4em; background: papayawhip; }\\"
+                    },
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\",
+                        \\"isStyle\\": true,
+                        \\"id\\": 18
+                      }
+                    ],
+                    \\"id\\": 17
+                  }
+                ],
+                \\"id\\": 4
+              },
+              {
+                \\"type\\": 3,
+                \\"textContent\\": \\"\\\\n  \\",
+                \\"id\\": 19
+              },
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"body\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 21
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"div\\",
+                    \\"attributes\\": {
+                      \\"id\\": \\"app\\"
+                    },
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"section\\",
+                        \\"attributes\\": {
+                          \\"class\\": \\"sc-AxirZ bJCmFu\\"
+                        },
+                        \\"childNodes\\": [
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"h1\\",
+                            \\"attributes\\": {
+                              \\"class\\": \\"sc-AxjAm ixzlRK\\"
+                            },
+                            \\"childNodes\\": [
+                              {
+                                \\"type\\": 3,
+                                \\"textContent\\": \\"Hello World!\\",
+                                \\"id\\": 25
+                              }
+                            ],
+                            \\"id\\": 24
+                          },
+                          {
+                            \\"type\\": 2,
+                            \\"tagName\\": \\"h1\\",
+                            \\"attributes\\": {
+                              \\"class\\": \\"sc-AxjAm eOXmez toggle\\",
+                              \\"color\\": \\"rebeccapurple\\"
+                            },
+                            \\"childNodes\\": [
+                              {
+                                \\"type\\": 3,
+                                \\"textContent\\": \\"Hello World!\\",
+                                \\"id\\": 27
+                              }
+                            ],
+                            \\"id\\": 26
+                          }
+                        ],
+                        \\"id\\": 23
+                      }
+                    ],
+                    \\"id\\": 22
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 28
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {
+                      \\"src\\": \\"https://cdn.jsdelivr.net/npm/react@16/umd/react.production.min.js\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 29
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 30
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {
+                      \\"src\\": \\"https://cdn.jsdelivr.net/npm/react-dom@16/umd/react-dom.production.min.js\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 31
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 32
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {
+                      \\"src\\": \\"https://cdn.jsdelivr.net/npm/react-is@16.13.1/umd/react-is.production.min.js\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 33
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 34
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {
+                      \\"src\\": \\"https://cdn.jsdelivr.net/npm/styled-components@5.0.1/dist/styled-components.min.js\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 35
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 36
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {
+                      \\"src\\": \\"https://cdn.jsdelivr.net/npm/babel-standalone@6/babel.min.js\\"
+                    },
+                    \\"childNodes\\": [],
+                    \\"id\\": 37
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\",
+                    \\"id\\": 38
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {
+                      \\"type\\": \\"text/babel\\"
+                    },
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 40
+                      }
+                    ],
+                    \\"id\\": 39
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\\\n    \\",
+                    \\"id\\": 41
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 43
+                      }
+                    ],
+                    \\"id\\": 42
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\\\n    \\\\n\\\\n\\",
+                    \\"id\\": 44
+                  }
+                ],
+                \\"id\\": 20
+              }
+            ],
+            \\"id\\": 3
+          }
+        ],
+        \\"id\\": 1
+      },
+      \\"initialOffset\\": {
+        \\"left\\": 0,
+        \\"top\\": 0
+      }
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 1,
+      \\"id\\": 26
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 0,
+      \\"id\\": 26
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 2,
+      \\"type\\": 2,
+      \\"id\\": 26
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 8,
+      \\"id\\": 17,
+      \\"adds\\": [
+        {
+          \\"rule\\": \\".pqkNE{font-size:1.5em;text-align:center;color:pink;}\\",
+          \\"index\\": 2
+        }
+      ]
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 0,
+      \\"texts\\": [],
+      \\"attributes\\": [
+        {
+          \\"id\\": 26,
+          \\"attributes\\": {
+            \\"class\\": \\"sc-AxjAm pqkNE toggle\\",
+            \\"color\\": \\"pink\\"
+          }
+        }
+      ],
+      \\"removes\\": [],
+      \\"adds\\": []
     }
   }
 ]"
@@ -2432,20 +4857,20 @@ exports[`select2 1`] = `
           }
         },
         {
-          \\"id\\": 75,
+          \\"id\\": 36,
           \\"attributes\\": {
             \\"id\\": \\"select2-drop\\",
             \\"class\\": \\"select2-drop select2-display-none select2-with-searchbox select2-drop-active\\"
           }
         },
         {
-          \\"id\\": 93,
+          \\"id\\": 70,
           \\"attributes\\": {
             \\"style\\": \\"\\"
           }
         },
         {
-          \\"id\\": 81,
+          \\"id\\": 42,
           \\"attributes\\": {
             \\"class\\": \\"select2-input select2-focused\\",
             \\"aria-activedescendant\\": \\"select2-result-label-2\\"
@@ -2458,7 +4883,7 @@ exports[`select2 1`] = `
           }
         },
         {
-          \\"id\\": 85,
+          \\"id\\": 72,
           \\"attributes\\": {
             \\"class\\": \\"select2-results-dept-0 select2-result select2-result-selectable select2-highlighted\\"
           }
@@ -2472,12 +4897,15 @@ exports[`select2 1`] = `
         {
           \\"parentId\\": 25,
           \\"id\\": 36
+        },
+        {
+          \\"parentId\\": 45,
+          \\"id\\": 46
         }
       ],
       \\"adds\\": [
         {
           \\"parentId\\": 25,
-          \\"previousId\\": null,
           \\"nextId\\": 34,
           \\"node\\": {
             \\"type\\": 2,
@@ -2488,22 +4916,20 @@ exports[`select2 1`] = `
               \\"tabindex\\": \\"-1\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 67
+            \\"id\\": 26
           }
         },
         {
-          \\"parentId\\": 67,
-          \\"previousId\\": null,
+          \\"parentId\\": 26,
           \\"nextId\\": 28,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"   \\",
-            \\"id\\": 68
+            \\"id\\": 27
           }
         },
         {
-          \\"parentId\\": 67,
-          \\"previousId\\": 68,
+          \\"parentId\\": 26,
           \\"nextId\\": 30,
           \\"node\\": {
             \\"type\\": 2,
@@ -2513,22 +4939,20 @@ exports[`select2 1`] = `
               \\"id\\": \\"select2-chosen-1\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 69
+            \\"id\\": 28
           }
         },
         {
-          \\"parentId\\": 69,
-          \\"previousId\\": null,
+          \\"parentId\\": 28,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"A\\",
-            \\"id\\": 70
+            \\"id\\": 29
           }
         },
         {
-          \\"parentId\\": 67,
-          \\"previousId\\": 69,
+          \\"parentId\\": 26,
           \\"nextId\\": 31,
           \\"node\\": {
             \\"type\\": 2,
@@ -2537,22 +4961,20 @@ exports[`select2 1`] = `
               \\"class\\": \\"select2-search-choice-close\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 71
+            \\"id\\": 30
           }
         },
         {
-          \\"parentId\\": 67,
-          \\"previousId\\": 71,
+          \\"parentId\\": 26,
           \\"nextId\\": 32,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"   \\",
-            \\"id\\": 72
+            \\"id\\": 31
           }
         },
         {
-          \\"parentId\\": 67,
-          \\"previousId\\": 72,
+          \\"parentId\\": 26,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 2,
@@ -2562,12 +4984,11 @@ exports[`select2 1`] = `
               \\"role\\": \\"presentation\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 73
+            \\"id\\": 32
           }
         },
         {
-          \\"parentId\\": 73,
-          \\"previousId\\": null,
+          \\"parentId\\": 32,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 2,
@@ -2576,12 +4997,11 @@ exports[`select2 1`] = `
               \\"role\\": \\"presentation\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 74
+            \\"id\\": 33
           }
         },
         {
           \\"parentId\\": 18,
-          \\"previousId\\": -1,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 2,
@@ -2591,22 +5011,20 @@ exports[`select2 1`] = `
               \\"id\\": \\"select2-drop\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 75
+            \\"id\\": 36
           }
         },
         {
-          \\"parentId\\": 75,
-          \\"previousId\\": null,
+          \\"parentId\\": 36,
           \\"nextId\\": 38,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"   \\",
-            \\"id\\": 76
+            \\"id\\": 37
           }
         },
         {
-          \\"parentId\\": 75,
-          \\"previousId\\": 76,
+          \\"parentId\\": 36,
           \\"nextId\\": 44,
           \\"node\\": {
             \\"type\\": 2,
@@ -2615,22 +5033,20 @@ exports[`select2 1`] = `
               \\"class\\": \\"select2-search\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 77
+            \\"id\\": 38
           }
         },
         {
-          \\"parentId\\": 77,
-          \\"previousId\\": null,
+          \\"parentId\\": 38,
           \\"nextId\\": 40,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"       \\",
-            \\"id\\": 78
+            \\"id\\": 39
           }
         },
         {
-          \\"parentId\\": 77,
-          \\"previousId\\": 78,
+          \\"parentId\\": 38,
           \\"nextId\\": 41,
           \\"node\\": {
             \\"type\\": 2,
@@ -2640,22 +5056,20 @@ exports[`select2 1`] = `
               \\"class\\": \\"select2-offscreen\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 79
+            \\"id\\": 40
           }
         },
         {
-          \\"parentId\\": 77,
-          \\"previousId\\": 79,
+          \\"parentId\\": 38,
           \\"nextId\\": 42,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"       \\",
-            \\"id\\": 80
+            \\"id\\": 41
           }
         },
         {
-          \\"parentId\\": 77,
-          \\"previousId\\": 80,
+          \\"parentId\\": 38,
           \\"nextId\\": 43,
           \\"node\\": {
             \\"type\\": 2,
@@ -2676,32 +5090,29 @@ exports[`select2 1`] = `
               \\"aria-activedescendant\\": \\"select2-result-label-2\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 81
+            \\"id\\": 42
           }
         },
         {
-          \\"parentId\\": 77,
-          \\"previousId\\": 81,
+          \\"parentId\\": 38,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"   \\",
-            \\"id\\": 82
+            \\"id\\": 43
           }
         },
         {
-          \\"parentId\\": 75,
-          \\"previousId\\": 77,
+          \\"parentId\\": 36,
           \\"nextId\\": 45,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"   \\",
-            \\"id\\": 83
+            \\"id\\": 44
           }
         },
         {
-          \\"parentId\\": 75,
-          \\"previousId\\": 83,
+          \\"parentId\\": 36,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 2,
@@ -2712,67 +5123,11 @@ exports[`select2 1`] = `
               \\"id\\": \\"select2-results-1\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 84
+            \\"id\\": 45
           }
         },
         {
-          \\"parentId\\": 84,
-          \\"previousId\\": null,
-          \\"nextId\\": -1,
-          \\"node\\": {
-            \\"type\\": 2,
-            \\"tagName\\": \\"li\\",
-            \\"attributes\\": {
-              \\"class\\": \\"select2-results-dept-0 select2-result select2-result-selectable select2-highlighted\\",
-              \\"role\\": \\"presentation\\"
-            },
-            \\"childNodes\\": [],
-            \\"id\\": 85
-          }
-        },
-        {
-          \\"parentId\\": 85,
-          \\"previousId\\": null,
-          \\"nextId\\": null,
-          \\"node\\": {
-            \\"type\\": 2,
-            \\"tagName\\": \\"div\\",
-            \\"attributes\\": {
-              \\"class\\": \\"select2-result-label\\",
-              \\"id\\": \\"select2-result-label-2\\",
-              \\"role\\": \\"option\\"
-            },
-            \\"childNodes\\": [],
-            \\"id\\": 86
-          }
-        },
-        {
-          \\"parentId\\": 86,
-          \\"previousId\\": null,
-          \\"nextId\\": -1,
-          \\"node\\": {
-            \\"type\\": 2,
-            \\"tagName\\": \\"span\\",
-            \\"attributes\\": {
-              \\"class\\": \\"select2-match\\"
-            },
-            \\"childNodes\\": [],
-            \\"id\\": 87
-          }
-        },
-        {
-          \\"parentId\\": 86,
-          \\"previousId\\": 87,
-          \\"nextId\\": null,
-          \\"node\\": {
-            \\"type\\": 3,
-            \\"textContent\\": \\"A\\",
-            \\"id\\": 88
-          }
-        },
-        {
-          \\"parentId\\": 84,
-          \\"previousId\\": 85,
+          \\"parentId\\": 45,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 2,
@@ -2782,12 +5137,11 @@ exports[`select2 1`] = `
               \\"role\\": \\"presentation\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 89
+            \\"id\\": 67
           }
         },
         {
-          \\"parentId\\": 89,
-          \\"previousId\\": null,
+          \\"parentId\\": 67,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 2,
@@ -2798,37 +5152,21 @@ exports[`select2 1`] = `
               \\"role\\": \\"option\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 90
+            \\"id\\": 68
           }
         },
         {
-          \\"parentId\\": 90,
-          \\"previousId\\": null,
-          \\"nextId\\": -1,
-          \\"node\\": {
-            \\"type\\": 2,
-            \\"tagName\\": \\"span\\",
-            \\"attributes\\": {
-              \\"class\\": \\"select2-match\\"
-            },
-            \\"childNodes\\": [],
-            \\"id\\": 91
-          }
-        },
-        {
-          \\"parentId\\": 90,
-          \\"previousId\\": 91,
+          \\"parentId\\": 68,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"B\\",
-            \\"id\\": 92
+            \\"id\\": 69
           }
         },
         {
           \\"parentId\\": 18,
-          \\"previousId\\": 66,
-          \\"nextId\\": 75,
+          \\"nextId\\": 36,
           \\"node\\": {
             \\"type\\": 2,
             \\"tagName\\": \\"div\\",
@@ -2838,17 +5176,80 @@ exports[`select2 1`] = `
               \\"style\\": \\"\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 93
+            \\"id\\": 70
           }
         },
         {
           \\"parentId\\": 62,
-          \\"previousId\\": null,
           \\"nextId\\": null,
           \\"node\\": {
             \\"type\\": 3,
             \\"textContent\\": \\"2 results are available, use up and down arrow keys to navigate.\\",
-            \\"id\\": 94
+            \\"id\\": 71
+          }
+        },
+        {
+          \\"parentId\\": 45,
+          \\"nextId\\": 67,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"li\\",
+            \\"attributes\\": {
+              \\"class\\": \\"select2-results-dept-0 select2-result select2-result-selectable select2-highlighted\\",
+              \\"role\\": \\"presentation\\"
+            },
+            \\"childNodes\\": [],
+            \\"id\\": 72
+          }
+        },
+        {
+          \\"parentId\\": 72,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"div\\",
+            \\"attributes\\": {
+              \\"class\\": \\"select2-result-label\\",
+              \\"id\\": \\"select2-result-label-2\\",
+              \\"role\\": \\"option\\"
+            },
+            \\"childNodes\\": [],
+            \\"id\\": 73
+          }
+        },
+        {
+          \\"parentId\\": 73,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 3,
+            \\"textContent\\": \\"A\\",
+            \\"id\\": 74
+          }
+        },
+        {
+          \\"parentId\\": 73,
+          \\"nextId\\": 74,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"span\\",
+            \\"attributes\\": {
+              \\"class\\": \\"select2-match\\"
+            },
+            \\"childNodes\\": [],
+            \\"id\\": 75
+          }
+        },
+        {
+          \\"parentId\\": 68,
+          \\"nextId\\": 69,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"span\\",
+            \\"attributes\\": {
+              \\"class\\": \\"select2-match\\"
+            },
+            \\"childNodes\\": [],
+            \\"id\\": 76
           }
         }
       ]
@@ -2859,7 +5260,7 @@ exports[`select2 1`] = `
     \\"data\\": {
       \\"source\\": 2,
       \\"type\\": 0,
-      \\"id\\": 93
+      \\"id\\": 70
     }
   },
   {
@@ -2868,7 +5269,7 @@ exports[`select2 1`] = `
       \\"source\\": 5,
       \\"text\\": \\"\\",
       \\"isChecked\\": false,
-      \\"id\\": 81
+      \\"id\\": 42
     }
   },
   {
@@ -2885,7 +5286,7 @@ exports[`select2 1`] = `
     \\"data\\": {
       \\"source\\": 2,
       \\"type\\": 1,
-      \\"id\\": 93
+      \\"id\\": 70
     }
   },
   {
@@ -2893,7 +5294,7 @@ exports[`select2 1`] = `
     \\"data\\": {
       \\"source\\": 2,
       \\"type\\": 6,
-      \\"id\\": 81
+      \\"id\\": 42
     }
   },
   {
@@ -2911,13 +5312,13 @@ exports[`select2 1`] = `
       \\"texts\\": [],
       \\"attributes\\": [
         {
-          \\"id\\": 95,
+          \\"id\\": 70,
           \\"attributes\\": {
             \\"style\\": \\"display: none;\\"
           }
         },
         {
-          \\"id\\": 75,
+          \\"id\\": 36,
           \\"attributes\\": {
             \\"id\\": null
           }
@@ -2935,7 +5336,7 @@ exports[`select2 1`] = `
           }
         },
         {
-          \\"id\\": 81,
+          \\"id\\": 42,
           \\"attributes\\": {
             \\"class\\": \\"select2-input\\"
           }
@@ -2944,22 +5345,21 @@ exports[`select2 1`] = `
       \\"removes\\": [
         {
           \\"parentId\\": 18,
-          \\"id\\": 93
+          \\"id\\": 70
         },
         {
-          \\"parentId\\": 84,
-          \\"id\\": 85
+          \\"parentId\\": 45,
+          \\"id\\": 72
         },
         {
-          \\"parentId\\": 84,
-          \\"id\\": 89
+          \\"parentId\\": 45,
+          \\"id\\": 67
         }
       ],
       \\"adds\\": [
         {
           \\"parentId\\": 18,
-          \\"previousId\\": 66,
-          \\"nextId\\": 75,
+          \\"nextId\\": 36,
           \\"node\\": {
             \\"type\\": 2,
             \\"tagName\\": \\"div\\",
@@ -2969,7 +5369,7 @@ exports[`select2 1`] = `
               \\"style\\": \\"display: none;\\"
             },
             \\"childNodes\\": [],
-            \\"id\\": 95
+            \\"id\\": 70
           }
         }
       ]
@@ -2980,7 +5380,181 @@ exports[`select2 1`] = `
     \\"data\\": {
       \\"source\\": 2,
       \\"type\\": 0,
-      \\"id\\": 67
+      \\"id\\": 26
+    }
+  }
+]"
+`;
+
+exports[`serialize-before-record 1`] = `
+"[
+  {
+    \\"type\\": 0,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 1,
+    \\"data\\": {}
+  },
+  {
+    \\"type\\": 4,
+    \\"data\\": {
+      \\"href\\": \\"about:blank\\",
+      \\"width\\": 1920,
+      \\"height\\": 1080
+    }
+  },
+  {
+    \\"type\\": 2,
+    \\"data\\": {
+      \\"node\\": {
+        \\"type\\": 0,
+        \\"childNodes\\": [
+          {
+            \\"type\\": 2,
+            \\"tagName\\": \\"html\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"head\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [],
+                \\"id\\": 3
+              },
+              {
+                \\"type\\": 2,
+                \\"tagName\\": \\"body\\",
+                \\"attributes\\": {},
+                \\"childNodes\\": [
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 5
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"p\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"mutation observer\\",
+                        \\"id\\": 7
+                      }
+                    ],
+                    \\"id\\": 6
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n  \\",
+                    \\"id\\": 8
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"ul\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n    \\",
+                        \\"id\\": 10
+                      },
+                      {
+                        \\"type\\": 2,
+                        \\"tagName\\": \\"li\\",
+                        \\"attributes\\": {},
+                        \\"childNodes\\": [],
+                        \\"id\\": 11
+                      },
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"\\\\n  \\",
+                        \\"id\\": 12
+                      }
+                    ],
+                    \\"id\\": 9
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n\\\\n    \\",
+                    \\"id\\": 13
+                  },
+                  {
+                    \\"type\\": 2,
+                    \\"tagName\\": \\"script\\",
+                    \\"attributes\\": {},
+                    \\"childNodes\\": [
+                      {
+                        \\"type\\": 3,
+                        \\"textContent\\": \\"SCRIPT_PLACEHOLDER\\",
+                        \\"id\\": 15
+                      }
+                    ],
+                    \\"id\\": 14
+                  },
+                  {
+                    \\"type\\": 3,
+                    \\"textContent\\": \\"\\\\n    \\\\n    \\",
+                    \\"id\\": 16
+                  }
+                ],
+                \\"id\\": 4
+              }
+            ],
+            \\"id\\": 2
+          }
+        ],
+        \\"id\\": 1
+      },
+      \\"initialOffset\\": {
+        \\"left\\": 0,
+        \\"top\\": 0
+      }
+    }
+  },
+  {
+    \\"type\\": 3,
+    \\"data\\": {
+      \\"source\\": 0,
+      \\"texts\\": [],
+      \\"attributes\\": [],
+      \\"removes\\": [],
+      \\"adds\\": [
+        {
+          \\"parentId\\": 9,
+          \\"nextId\\": null,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"li\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [],
+            \\"id\\": 17
+          }
+        },
+        {
+          \\"parentId\\": 9,
+          \\"nextId\\": 17,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"li\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [],
+            \\"id\\": 18
+          }
+        },
+        {
+          \\"parentId\\": 9,
+          \\"nextId\\": 18,
+          \\"node\\": {
+            \\"type\\": 2,
+            \\"tagName\\": \\"li\\",
+            \\"attributes\\": {},
+            \\"childNodes\\": [],
+            \\"id\\": 19
+          }
+        }
+      ]
     }
   }
 ]"

@@ -9,8 +9,10 @@ import {
   listenerHandler,
   eventWithTime,
   EventType,
+  IncrementalSource,
+  styleSheetRuleData,
 } from '../src/types';
-import { assertSnapshot } from './utils';
+import { assertSnapshot, launchPuppeteer } from './utils';
 import { Suite } from 'mocha';
 
 interface ISuite extends Suite {
@@ -22,17 +24,17 @@ interface ISuite extends Suite {
 
 interface IWindow extends Window {
   rrweb: {
-    record: (options: recordOptions) => listenerHandler | undefined;
+    record: (
+      options: recordOptions<eventWithTime>,
+    ) => listenerHandler | undefined;
+    addCustomEvent<T>(tag: string, payload: T): void;
   };
   emit: (e: eventWithTime) => undefined;
 }
 
-describe('record', function(this: ISuite) {
+describe('record', function (this: ISuite) {
   before(async () => {
-    this.browser = await puppeteer.launch({
-      headless: false,
-      args: ['--no-sandbox'],
-    });
+    this.browser = await launchPuppeteer();
 
     const bundlePath = path.resolve(__dirname, '../dist/rrweb.min.js');
     this.code = fs.readFileSync(bundlePath, 'utf8');
@@ -58,7 +60,7 @@ describe('record', function(this: ISuite) {
       this.events.push(e);
     });
 
-    page.on('console', msg => console.log('PAGE LOG:', msg.text()));
+    page.on('console', (msg) => console.log('PAGE LOG:', msg.text()));
   });
 
   afterEach(async () => {
@@ -71,9 +73,9 @@ describe('record', function(this: ISuite) {
 
   it('will only have one full snapshot without checkout config', async () => {
     await this.page.evaluate(() => {
-      const { record } = (window as IWindow).rrweb;
+      const { record } = ((window as unknown) as IWindow).rrweb;
       record({
-        emit: (window as IWindow).emit,
+        emit: ((window as unknown) as IWindow).emit,
       });
     });
     let count = 30;
@@ -96,9 +98,9 @@ describe('record', function(this: ISuite) {
 
   it('can checkout full snapshot by count', async () => {
     await this.page.evaluate(() => {
-      const { record } = (window as IWindow).rrweb;
+      const { record } = ((window as unknown) as IWindow).rrweb;
       record({
-        emit: (window as IWindow).emit,
+        emit: ((window as unknown) as IWindow).emit,
         checkoutEveryNth: 10,
       });
     });
@@ -126,9 +128,9 @@ describe('record', function(this: ISuite) {
 
   it('can checkout full snapshot by time', async () => {
     await this.page.evaluate(() => {
-      const { record } = (window as IWindow).rrweb;
+      const { record } = ((window as unknown) as IWindow).rrweb;
       record({
-        emit: (window as IWindow).emit,
+        emit: ((window as unknown) as IWindow).emit,
         checkoutEveryNms: 500,
       });
     });
@@ -157,9 +159,9 @@ describe('record', function(this: ISuite) {
 
   it('is safe to checkout during async callbacks', async () => {
     await this.page.evaluate(() => {
-      const { record } = (window as IWindow).rrweb;
+      const { record } = ((window as unknown) as IWindow).rrweb;
       record({
-        emit: (window as IWindow).emit,
+        emit: ((window as unknown) as IWindow).emit,
         checkoutEveryNth: 2,
       });
       const p = document.createElement('p');
@@ -179,5 +181,63 @@ describe('record', function(this: ISuite) {
     });
     await this.page.waitFor(50);
     assertSnapshot(this.events, __filename, 'async-checkout');
+  });
+
+  it('can add custom event', async () => {
+    await this.page.evaluate(() => {
+      const { record, addCustomEvent } = ((window as unknown) as IWindow).rrweb;
+      record({
+        emit: ((window as unknown) as IWindow).emit,
+      });
+      addCustomEvent<number>('tag1', 1);
+      addCustomEvent<{ a: string }>('tag2', {
+        a: 'b',
+      });
+    });
+    await this.page.waitFor(50);
+    assertSnapshot(this.events, __filename, 'custom-event');
+  });
+
+  it('captures stylesheet rules', async () => {
+    await this.page.evaluate(() => {
+      const { record } = ((window as unknown) as IWindow).rrweb;
+
+      record({
+        emit: ((window as unknown) as IWindow).emit,
+      });
+
+      const styleElement = document.createElement('style');
+      document.head.appendChild(styleElement);
+
+      const styleSheet = <CSSStyleSheet>styleElement.sheet;
+      const ruleIdx0 = styleSheet.insertRule('body { background: #000; }');
+      const ruleIdx1 = styleSheet.insertRule('body { background: #111; }');
+      styleSheet.deleteRule(ruleIdx1);
+      setTimeout(() => {
+        styleSheet.insertRule('body { color: #fff; }');
+      }, 0);
+      setTimeout(() => {
+        styleSheet.deleteRule(ruleIdx0);
+      }, 5);
+      setTimeout(() => {
+        styleSheet.insertRule('body { color: #ccc; }');
+      }, 10);
+    });
+    await this.page.waitFor(10);
+    const styleSheetRuleEvents = this.events.filter(
+      (e) =>
+        e.type === EventType.IncrementalSnapshot &&
+        e.data.source === IncrementalSource.StyleSheetRule,
+    );
+    const addRuleCount = styleSheetRuleEvents.filter((e) =>
+      Boolean((e.data as styleSheetRuleData).adds),
+    ).length;
+    const removeRuleCount = styleSheetRuleEvents.filter((e) =>
+      Boolean((e.data as styleSheetRuleData).removes),
+    ).length;
+    // sync insert/delete should be ignored
+    expect(addRuleCount).to.equal(2);
+    expect(removeRuleCount).to.equal(1);
+    assertSnapshot(this.events, __filename, 'stylesheet-rules');
   });
 });

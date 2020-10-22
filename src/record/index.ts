@@ -1,5 +1,5 @@
-import { snapshot, NodeType } from 'rrweb-snapshot';
-import initObservers from './observer';
+import { snapshot, NodeType, MaskInputOptions } from 'rrweb-snapshot';
+import { initObservers, mutationBuffer } from './observer';
 import {
   mirror,
   on,
@@ -7,6 +7,7 @@ import {
   getWindowHeight,
   getIframeDimensions,
   initDimension,
+  polyfill,
 } from '../utils';
 import {
   EventType,
@@ -25,23 +26,79 @@ function wrapEvent(e: event): eventWithTime {
   };
 }
 
-function record(options: recordOptions = {}): listenerHandler | undefined {
+let wrappedEmit!: (e: eventWithTime, isCheckout?: boolean) => void;
+
+function record<T = eventWithTime>(
+  options: recordOptions<T> = {},
+): listenerHandler | undefined {
   const {
     emit,
     checkoutEveryNms,
     checkoutEveryNth,
     blockClass = 'rr-block',
     ignoreClass = 'rr-ignore',
+    inlineStylesheet = true,
+    maskAllInputs,
+    maskInputOptions: _maskInputOptions,
+    hooks,
+    packFn,
+    sampling = {},
+    mousemoveWait,
+    recordCanvas = false,
+    collectFonts = false,
   } = options;
   // runtime checks for user options
   if (!emit) {
     throw new Error('emit function is required');
   }
+  // move departed options to new options
+  if (mousemoveWait !== undefined && sampling.mousemove === undefined) {
+    sampling.mousemove = mousemoveWait;
+  }
+
+  const maskInputOptions: MaskInputOptions =
+    maskAllInputs === true
+      ? {
+          color: true,
+          date: true,
+          'datetime-local': true,
+          email: true,
+          month: true,
+          number: true,
+          range: true,
+          search: true,
+          tel: true,
+          text: true,
+          time: true,
+          url: true,
+          week: true,
+          textarea: true,
+          select: true,
+        }
+      : _maskInputOptions !== undefined
+      ? _maskInputOptions
+      : {};
+
+  polyfill();
 
   let lastFullSnapshotEvent: eventWithTime;
   let incrementalSnapshotCount = 0;
-  const wrappedEmit = (e: eventWithTime, isCheckout?: boolean) => {
-    emit(e, isCheckout);
+  wrappedEmit = (e: eventWithTime, isCheckout?: boolean) => {
+    if (
+      mutationBuffer.isFrozen() &&
+	e.type !== EventType.FullSnapshot &&
+      !(
+        e.type == EventType.IncrementalSnapshot &&
+        e.data.source == IncrementalSource.Mutation
+      )
+    ) {
+      // we've got a user initiated event so first we need to apply
+      // all DOM changes that have been buffering during paused state
+      mutationBuffer.emit();
+      mutationBuffer.unfreeze();
+    }
+
+    emit(((packFn ? packFn(e) : e) as unknown) as T, isCheckout);
     if (e.type === EventType.FullSnapshot) {
       lastFullSnapshotEvent = e;
       incrementalSnapshotCount = 0;
@@ -72,17 +129,27 @@ function record(options: recordOptions = {}): listenerHandler | undefined {
       }),
       isCheckout,
     );
-    const [node, idNodeMap] = snapshot(document, {
+
+    let wasFrozen = mutationBuffer.isFrozen();
+    mutationBuffer.freeze();  // don't allow any mirror modifications during snapshotting
+    const onVisit = (n: any) => {
+      if (n.__sn.type === NodeType.Element && n.__sn.tagName === 'iframe') {
+        iframes.push((n as unknown) as HTMLIFrameElement);
+      }
+    };
+    const [node, idNodeMap] = snapshot(
+      document,
       blockClass,
-      onVisit: n => {
-        if (n.__sn.type === NodeType.Element && n.__sn.tagName === 'iframe') {
-          iframes.push((n as unknown) as HTMLIFrameElement);
-        }
-      },
-    });
+      inlineStylesheet,
+      maskInputOptions,
+      recordCanvas,
+      onVisit,
+    );
+
     if (!node) {
       return console.warn('Failed to snapshot the document');
     }
+
     mirror.map = idNodeMap;
     wrappedEmit(
       wrapEvent({
@@ -90,12 +157,28 @@ function record(options: recordOptions = {}): listenerHandler | undefined {
         data: {
           node,
           initialOffset: {
-            left: document.documentElement!.scrollLeft,
-            top: document.documentElement!.scrollTop,
+            left:
+              window.pageXOffset !== undefined
+                ? window.pageXOffset
+                : document?.documentElement.scrollLeft ||
+                  document?.body?.parentElement?.scrollLeft ||
+                  document?.body.scrollLeft ||
+                  0,
+            top:
+              window.pageYOffset !== undefined
+                ? window.pageYOffset
+                : document?.documentElement.scrollTop ||
+                  document?.body?.parentElement?.scrollTop ||
+                  document?.body.scrollTop ||
+                  0,
           },
         },
       }),
     );
+    if (!wasFrozen) {
+      mutationBuffer.emit();  // emit anything queued up now
+      mutationBuffer.unfreeze();
+    }
   }
 
   try {
@@ -111,72 +194,120 @@ function record(options: recordOptions = {}): listenerHandler | undefined {
       }),
     );
     const observe = (doc: Document, dimension: documentDimension) => {
-      return initObservers({
-        mutationCb: m =>
-          wrappedEmit(
-            wrapEvent({
-              type: EventType.IncrementalSnapshot,
-              data: {
-                source: IncrementalSource.Mutation,
-                ...m,
-              },
-            }),
-          ),
-        mousemoveCb: positions =>
-          wrappedEmit(
-            wrapEvent({
-              type: EventType.IncrementalSnapshot,
-              data: {
-                source: IncrementalSource.MouseMove,
-                positions,
-              },
-            }),
-          ),
-        mouseInteractionCb: d =>
-          wrappedEmit(
-            wrapEvent({
-              type: EventType.IncrementalSnapshot,
-              data: {
-                source: IncrementalSource.MouseInteraction,
-                ...d,
-              },
-            }),
-          ),
-        scrollCb: p =>
-          wrappedEmit(
-            wrapEvent({
-              type: EventType.IncrementalSnapshot,
-              data: {
-                source: IncrementalSource.Scroll,
-                ...p,
-              },
-            }),
-          ),
-        viewportResizeCb: d =>
-          wrappedEmit(
-            wrapEvent({
-              type: EventType.IncrementalSnapshot,
-              data: {
-                source: IncrementalSource.ViewportResize,
-                ...d,
-              },
-            }),
-          ),
-        inputCb: v =>
-          wrappedEmit(
-            wrapEvent({
-              type: EventType.IncrementalSnapshot,
-              data: {
-                source: IncrementalSource.Input,
-                ...v,
-              },
-            }),
-          ),
-        blockClass,
-        ignoreClass,
-        doc,
-        dimension,
-      });
+      return initObservers(
+        {
+          mutationCb: (m) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source: IncrementalSource.Mutation,
+                  ...m,
+                },
+              }),
+            ),
+          mousemoveCb: (positions, source) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source,
+                  positions,
+                },
+              }),
+            ),
+          mouseInteractionCb: (d) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source: IncrementalSource.MouseInteraction,
+                  ...d,
+                },
+              }),
+            ),
+          scrollCb: (p) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source: IncrementalSource.Scroll,
+                  ...p,
+                },
+              }),
+            ),
+          viewportResizeCb: (d) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source: IncrementalSource.ViewportResize,
+                  ...d,
+                },
+              }),
+            ),
+          inputCb: (v) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source: IncrementalSource.Input,
+                  ...v,
+                },
+              }),
+            ),
+          mediaInteractionCb: (p) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source: IncrementalSource.MediaInteraction,
+                  ...p,
+                },
+              }),
+            ),
+          styleSheetRuleCb: (r) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source: IncrementalSource.StyleSheetRule,
+                  ...r,
+                },
+              }),
+            ),
+          canvasMutationCb: (p) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source: IncrementalSource.CanvasMutation,
+                  ...p,
+                },
+              }),
+            ),
+          fontCb: (p) =>
+            wrappedEmit(
+              wrapEvent({
+                type: EventType.IncrementalSnapshot,
+                data: {
+                  source: IncrementalSource.Font,
+                  ...p,
+                },
+              }),
+            ),
+          blockClass,
+          ignoreClass,
+          maskInputOptions,
+          inlineStylesheet,
+          sampling,
+          recordCanvas,
+          collectFonts,
+          doc,
+          dimension,
+        },
+        hooks,
+      );
     };
     const init = () => {
       takeFullSnapshot();
@@ -213,12 +344,31 @@ function record(options: recordOptions = {}): listenerHandler | undefined {
       );
     }
     return () => {
-      handlers.forEach(h => h());
+      handlers.forEach((h) => h());
     };
   } catch (error) {
     // TODO: handle internal error
     console.warn(error);
   }
 }
+
+record.addCustomEvent = <T>(tag: string, payload: T) => {
+  if (!wrappedEmit) {
+    throw new Error('please add custom event after start recording');
+  }
+  wrappedEmit(
+    wrapEvent({
+      type: EventType.Custom,
+      data: {
+        tag,
+        payload,
+      },
+    }),
+  );
+};
+
+record.freezePage = () => {
+  mutationBuffer.freeze();
+};
 
 export default record;

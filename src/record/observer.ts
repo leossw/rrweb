@@ -1,4 +1,5 @@
-import { INode, serializeNodeWithId } from 'rrweb-snapshot';
+import { INode, MaskInputOptions } from 'rrweb-snapshot';
+import { FontFaceDescriptors, FontFaceSet } from 'css-font-loading-module';
 import {
   mirror,
   throttle,
@@ -7,12 +8,11 @@ import {
   getWindowHeight,
   getWindowWidth,
   isBlocked,
-  isAncestorRemoved,
+  isTouchEvent,
+  patch,
 } from '../utils';
 import {
   mutationCallBack,
-  removedNodeMutation,
-  addedNodeMutation,
   observerParam,
   mousemoveCallBack,
   mousePosition,
@@ -20,185 +20,46 @@ import {
   MouseInteractions,
   listenerHandler,
   scrollCallback,
+  styleSheetRuleCallback,
   viewportResizeCallback,
   inputValue,
   inputCallback,
   hookResetter,
-  textCursor,
-  attributeCursor,
   blockClass,
   documentDimension,
+  IncrementalSource,
+  hooksParam,
+  Arguments,
+  mediaInteractionCallback,
+  MediaInteractions,
+  SamplingStrategy,
+  canvasMutationCallback,
+  fontCallback,
+  fontParam,
 } from '../types';
-import { deepDelete, isParentRemoved, isParentDropped } from './collection';
+import MutationBuffer from './mutation';
 
-/**
- * Mutation observer will merge several mutations into an array and pass
- * it to the callback function, this may make tracing added nodes hard.
- * For example, if we append an element el_1 into body, and then append
- * another element el_2 into el_1, these two mutations may be passed to the
- * callback function together when the two operations were done.
- * Generally we need trace child nodes of newly added node, but in this
- * case if we count el_2 as el_1's child node in the first mutation record,
- * then we will count el_2 again in the secoond mutation record which was
- * duplicated.
- * To avoid of duplicate counting added nodes, we will use a Set to store
- * added nodes and its child nodes during iterate mutation records. Then
- * collect added nodes from the Set which will has no duplicate copy. But
- * this also cause newly added node will not be serialized with id ASAP,
- * which means all the id related calculation should be lazy too.
- * @param cb mutationCallBack
- */
+export const mutationBuffer = new MutationBuffer();
+
 function initMutationObserver(
   cb: mutationCallBack,
-  doc: Document,
   blockClass: blockClass,
+  inlineStylesheet: boolean,
+  maskInputOptions: MaskInputOptions,
+  recordCanvas: boolean,
+  doc: Document,
 ): MutationObserver {
-  const observer = new MutationObserver(mutations => {
-    const texts: textCursor[] = [];
-    const attributes: attributeCursor[] = [];
-    const removes: removedNodeMutation[] = [];
-    const adds: addedNodeMutation[] = [];
-
-    const addsSet = new Set<Node>();
-    const droppedSet = new Set<Node>();
-
-    const genAdds = (n: Node) => {
-      if (isBlocked(n, blockClass)) {
-        return;
-      }
-      addsSet.add(n);
-      droppedSet.delete(n);
-      n.childNodes.forEach(childN => genAdds(childN));
-    };
-    mutations.forEach(mutation => {
-      const {
-        type,
-        target,
-        oldValue,
-        addedNodes,
-        removedNodes,
-        attributeName,
-      } = mutation;
-      switch (type) {
-        case 'characterData': {
-          const value = target.textContent;
-          if (!isBlocked(target, blockClass) && value !== oldValue) {
-            texts.push({
-              value,
-              node: target,
-            });
-          }
-          break;
-        }
-        case 'attributes': {
-          const value = (target as HTMLElement).getAttribute(attributeName!);
-          if (isBlocked(target, blockClass) || value === oldValue) {
-            return;
-          }
-          let item: attributeCursor | undefined = attributes.find(
-            a => a.node === target,
-          );
-          if (!item) {
-            item = {
-              node: target,
-              attributes: {},
-            };
-            attributes.push(item);
-          }
-          // overwrite attribute if the mutations was triggered in same time
-          item.attributes[attributeName!] = value;
-          break;
-        }
-        case 'childList': {
-          addedNodes.forEach(n => genAdds(n));
-          removedNodes.forEach(n => {
-            const nodeId = mirror.getId(n as INode);
-            const parentId = mirror.getId(target as INode);
-            if (isBlocked(n, blockClass)) {
-              return;
-            }
-            // removed node has not been serialized yet, just remove it from the Set
-            if (addsSet.has(n)) {
-              deepDelete(addsSet, n);
-              droppedSet.add(n);
-            } else if (addsSet.has(target) && nodeId === -1) {
-              /**
-               * If target was newly added and removed child node was
-               * not serialized, it means the child node has been removed
-               * before callback fired, so we can ignore it.
-               * TODO: verify this
-               */
-            } else if (isAncestorRemoved(target as INode)) {
-              /**
-               * If parent id was not in the mirror map any more, it
-               * means the parent node has already been removed. So
-               * the node is also removed which we do not need to track
-               * and replay.
-               */
-            } else {
-              removes.push({
-                parentId,
-                id: nodeId,
-              });
-            }
-            mirror.removeNodeFromMap(n as INode);
-          });
-          break;
-        }
-        default:
-          break;
-      }
-    });
-
-    Array.from(addsSet).forEach(n => {
-      if (!isParentDropped(droppedSet, n) && !isParentRemoved(removes, n)) {
-        adds.push({
-          parentId: mirror.getId((n.parentNode as Node) as INode),
-          previousId: !n.previousSibling
-            ? n.previousSibling
-            : mirror.getId(n.previousSibling as INode),
-          nextId: !n.nextSibling
-            ? n.nextSibling
-            : mirror.getId((n.nextSibling as unknown) as INode),
-          node: serializeNodeWithId(n, doc, mirror.map, {
-            blockClass,
-            skipChild: true,
-          })!,
-        });
-      } else {
-        droppedSet.add(n);
-      }
-    });
-
-    const payload = {
-      texts: texts
-        .map(text => ({
-          id: mirror.getId(text.node as INode),
-          value: text.value,
-        }))
-        // text mutation's id was not in the mirror map means the target node has been removed
-        .filter(text => mirror.has(text.id)),
-      attributes: attributes
-        .map(attribute => ({
-          id: mirror.getId(attribute.node as INode),
-          attributes: attribute.attributes,
-        }))
-        // attribute mutation's id was not in the mirror map means the target node has been removed
-        .filter(attribute => mirror.has(attribute.id)),
-      removes,
-      adds,
-    };
-    // payload may be empty if the mutations happened in some blocked elements
-    if (
-      !payload.texts.length &&
-      !payload.attributes.length &&
-      !payload.removes.length &&
-      !payload.adds.length
-    ) {
-      return;
-    }
-    cb(payload);
-  });
+  // see mutation.ts for details
+  mutationBuffer.init(
+    cb,
+    blockClass,
+    inlineStylesheet,
+    maskInputOptions,
+    recordCanvas,
+  );
+  const observer = new MutationObserver(
+    mutationBuffer.processMutations.bind(mutationBuffer)
+  );
   observer.observe(doc, {
     attributes: true,
     attributeOldValue: true,
@@ -210,27 +71,39 @@ function initMutationObserver(
   return observer;
 }
 
-function initMousemoveObserver(
+function initMoveObserver(
   cb: mousemoveCallBack,
-  doc: Document,
+  sampling: SamplingStrategy,
   dimension: documentDimension,
+  doc: Document,
 ): listenerHandler {
+  if (sampling.mousemove === false) {
+    return () => {};
+  }
+
+  const threshold =
+    typeof sampling.mousemove === 'number' ? sampling.mousemove : 50;
+
   let positions: mousePosition[] = [];
   let timeBaseline: number | null;
-  const wrappedCb = throttle(() => {
+  const wrappedCb = throttle((isTouch: boolean) => {
     const totalOffset = Date.now() - timeBaseline!;
     cb(
-      positions.map(p => {
+      positions.map((p) => {
         p.timeOffset -= totalOffset;
         return p;
       }),
+      isTouch ? IncrementalSource.TouchMove : IncrementalSource.MouseMove,
     );
     positions = [];
     timeBaseline = null;
   }, 500);
-  const updatePosition = throttle<MouseEvent>(
-    evt => {
-      const { clientX, clientY, target } = evt;
+  const updatePosition = throttle<MouseEvent | TouchEvent>(
+    (evt) => {
+      const { target } = evt;
+      const { clientX, clientY } = isTouchEvent(evt)
+        ? evt.changedTouches[0]
+        : evt;
       if (!timeBaseline) {
         timeBaseline = Date.now();
       }
@@ -240,30 +113,48 @@ function initMousemoveObserver(
         id: mirror.getId(target as INode),
         timeOffset: Date.now() - timeBaseline,
       });
-      wrappedCb();
+      wrappedCb(isTouchEvent(evt));
     },
-    50,
+    threshold,
     {
       trailing: false,
     },
   );
-  return on('mousemove', updatePosition, doc);
+  const handlers = [
+    on('mousemove', updatePosition, doc),
+    on('touchmove', updatePosition, doc),
+  ];
+  return () => {
+    handlers.forEach((h) => h());
+  };
 }
 
 function initMouseInteractionObserver(
   cb: mouseInteractionCallBack,
-  doc: Document,
-  dimension: documentDimension,
   blockClass: blockClass,
+  sampling: SamplingStrategy,
+  dimension: documentDimension,
+  doc: Document,
 ): listenerHandler {
+  if (sampling.mouseInteraction === false) {
+    return () => {};
+  }
+  const disableMap: Record<string, boolean | undefined> =
+    sampling.mouseInteraction === true ||
+    sampling.mouseInteraction === undefined
+      ? {}
+      : sampling.mouseInteraction;
+
   const handlers: listenerHandler[] = [];
   const getHandler = (eventKey: keyof typeof MouseInteractions) => {
-    return (event: MouseEvent) => {
+    return (event: MouseEvent | TouchEvent) => {
       if (isBlocked(event.target as Node, blockClass)) {
         return;
       }
       const id = mirror.getId(event.target as INode);
-      const { clientX, clientY } = event;
+      const { clientX, clientY } = isTouchEvent(event)
+        ? event.changedTouches[0]
+        : event;
       cb({
         type: MouseInteractions[eventKey],
         id,
@@ -273,23 +164,29 @@ function initMouseInteractionObserver(
     };
   };
   Object.keys(MouseInteractions)
-    .filter(key => Number.isNaN(Number(key)))
+    .filter(
+      (key) =>
+        Number.isNaN(Number(key)) &&
+        !key.endsWith('_Departed') &&
+        disableMap[key] !== false,
+    )
     .forEach((eventKey: keyof typeof MouseInteractions) => {
       const eventName = eventKey.toLowerCase();
       const handler = getHandler(eventKey);
       handlers.push(on(eventName, handler, doc));
     });
   return () => {
-    handlers.forEach(h => h());
+    handlers.forEach((h) => h());
   };
 }
 
 function initScrollObserver(
   cb: scrollCallback,
-  doc: Document,
   blockClass: blockClass,
+  sampling: SamplingStrategy,
+  doc: Document,
 ): listenerHandler {
-  const updatePosition = throttle<UIEvent>(evt => {
+  const updatePosition = throttle<UIEvent>((evt) => {
     if (!evt.target || isBlocked(evt.target as Node, blockClass)) {
       return;
     }
@@ -308,7 +205,7 @@ function initScrollObserver(
         y: (evt.target as HTMLElement).scrollTop,
       });
     }
-  }, 100);
+  }, sampling.scroll || 100);
   return on('scroll', updatePosition, doc);
 }
 
@@ -326,13 +223,15 @@ function initViewportResizeObserver(
   return on('resize', updateDimension, window);
 }
 
-const INPUT_TAGS = ['INPUT', 'TEXTAREA', 'SELECT'];
+export const INPUT_TAGS = ['INPUT', 'TEXTAREA', 'SELECT'];
 const lastInputValueMap: WeakMap<EventTarget, inputValue> = new WeakMap();
 function initInputObserver(
   cb: inputCallback,
-  doc: Document,
   blockClass: blockClass,
   ignoreClass: string,
+  maskInputOptions: MaskInputOptions,
+  sampling: SamplingStrategy,
+  doc: Document,
 ): listenerHandler {
   function eventHandler(event: Event) {
     const { target } = event;
@@ -351,10 +250,17 @@ function initInputObserver(
     ) {
       return;
     }
-    const text = (target as HTMLInputElement).value;
+    let text = (target as HTMLInputElement).value;
     let isChecked = false;
     if (type === 'radio' || type === 'checkbox') {
       isChecked = (target as HTMLInputElement).checked;
+    } else if (
+      maskInputOptions[
+        (target as Element).tagName.toLowerCase() as keyof MaskInputOptions
+      ] ||
+      maskInputOptions[type as keyof MaskInputOptions]
+    ) {
+      text = '*'.repeat(text.length);
     }
     cbWithDedup(target, { text, isChecked });
     // if a radio was checked
@@ -363,7 +269,7 @@ function initInputObserver(
     if (type === 'radio' && name && isChecked) {
       doc
         .querySelectorAll(`input[type="radio"][name="${name}"]`)
-        .forEach(el => {
+        .forEach((el) => {
           if (el !== target) {
             cbWithDedup(el, {
               text: (el as HTMLInputElement).value,
@@ -388,10 +294,10 @@ function initInputObserver(
       });
     }
   }
-  const handlers: Array<listenerHandler | hookResetter> = [
-    'input',
-    'change',
-  ].map(eventName => on(eventName, eventHandler, doc));
+  const events = sampling.input === 'last' ? ['change'] : ['input', 'change'];
+  const handlers: Array<
+    listenerHandler | hookResetter
+  > = events.map((eventName) => on(eventName, eventHandler, doc));
   const propertyDescriptor = Object.getOwnPropertyDescriptor(
     HTMLInputElement.prototype,
     'value',
@@ -401,10 +307,12 @@ function initInputObserver(
     [HTMLInputElement.prototype, 'checked'],
     [HTMLSelectElement.prototype, 'value'],
     [HTMLTextAreaElement.prototype, 'value'],
+    // Some UI library use selectedIndex to set select value
+    [HTMLSelectElement.prototype, 'selectedIndex'],
   ];
   if (propertyDescriptor && propertyDescriptor.set) {
     handlers.push(
-      ...hookProperties.map(p =>
+      ...hookProperties.map((p) =>
         hookSetter<HTMLElement>(p[0], p[1], {
           set() {
             // mock to a normal event
@@ -415,15 +323,190 @@ function initInputObserver(
     );
   }
   return () => {
-    handlers.forEach(h => h());
+    handlers.forEach((h) => h());
   };
 }
 
-export default function initObservers(o: observerParam): listenerHandler {
+function initStyleSheetObserver(cb: styleSheetRuleCallback): listenerHandler {
+  const insertRule = CSSStyleSheet.prototype.insertRule;
+  CSSStyleSheet.prototype.insertRule = function (rule: string, index?: number) {
+    const id = mirror.getId(this.ownerNode as INode);
+    if (id !== -1) {
+      cb({
+        id,
+        adds: [{ rule, index }],
+      });
+    }
+    return insertRule.apply(this, arguments);
+  };
+
+  const deleteRule = CSSStyleSheet.prototype.deleteRule;
+  CSSStyleSheet.prototype.deleteRule = function (index: number) {
+    const id = mirror.getId(this.ownerNode as INode);
+    if (id !== -1) {
+      cb({
+        id,
+        removes: [{ index }],
+      });
+    }
+    return deleteRule.apply(this, arguments);
+  };
+
+  return () => {
+    CSSStyleSheet.prototype.insertRule = insertRule;
+    CSSStyleSheet.prototype.deleteRule = deleteRule;
+  };
+}
+
+function initMediaInteractionObserver(
+  mediaInteractionCb: mediaInteractionCallback,
+  blockClass: blockClass,
+): listenerHandler {
+  const handler = (type: 'play' | 'pause') => (event: Event) => {
+    const { target } = event;
+    if (!target || isBlocked(target as Node, blockClass)) {
+      return;
+    }
+    mediaInteractionCb({
+      type: type === 'play' ? MediaInteractions.Play : MediaInteractions.Pause,
+      id: mirror.getId(target as INode),
+    });
+  };
+  const handlers = [on('play', handler('play')), on('pause', handler('pause'))];
+  return () => {
+    handlers.forEach((h) => h());
+  };
+}
+
+function initCanvasMutationObserver(
+  cb: canvasMutationCallback,
+  blockClass: blockClass,
+): listenerHandler {
+  const props = Object.getOwnPropertyNames(CanvasRenderingContext2D.prototype);
+  const handlers: listenerHandler[] = [];
+  for (const prop of props) {
+    try {
+      if (
+        typeof CanvasRenderingContext2D.prototype[
+          prop as keyof CanvasRenderingContext2D
+        ] !== 'function'
+      ) {
+        continue;
+      }
+      const restoreHandler = patch(
+        CanvasRenderingContext2D.prototype,
+        prop,
+        function (original) {
+          return function (
+            this: CanvasRenderingContext2D,
+            ...args: Array<unknown>
+          ) {
+            if (!isBlocked(this.canvas, blockClass)) {
+              setTimeout(() => {
+                const recordArgs = [...args];
+                if (prop === 'drawImage') {
+                  if (
+                    recordArgs[0] &&
+                    recordArgs[0] instanceof HTMLCanvasElement
+                  ) {
+                    recordArgs[0] = recordArgs[0].toDataURL();
+                  }
+                }
+                cb({
+                  id: mirror.getId((this.canvas as unknown) as INode),
+                  property: prop,
+                  args: recordArgs,
+                });
+              }, 0);
+            }
+            return original.apply(this, args);
+          };
+        },
+      );
+      handlers.push(restoreHandler);
+    } catch {
+      const hookHandler = hookSetter<CanvasRenderingContext2D>(
+        CanvasRenderingContext2D.prototype,
+        prop,
+        {
+          set(v) {
+            cb({
+              id: mirror.getId((this.canvas as unknown) as INode),
+              property: prop,
+              args: [v],
+              setter: true,
+            });
+          },
+        },
+      );
+      handlers.push(hookHandler);
+    }
+  }
+  return () => {
+    handlers.forEach((h) => h());
+  };
+}
+
+function initFontObserver(cb: fontCallback): listenerHandler {
+  const handlers: listenerHandler[] = [];
+
+  const fontMap = new WeakMap<FontFace, fontParam>();
+
+  const originalFontFace = FontFace;
+  // tslint:disable-next-line: no-any
+  (window as any).FontFace = function FontFace(
+    family: string,
+    source: string | ArrayBufferView,
+    descriptors?: FontFaceDescriptors,
+  ) {
+    const fontFace = new originalFontFace(family, source, descriptors);
+    fontMap.set(fontFace, {
+      family,
+      buffer: typeof source !== 'string',
+      descriptors,
+      fontSource:
+        typeof source === 'string'
+          ? source
+          : // tslint:disable-next-line: no-any
+            JSON.stringify(Array.from(new Uint8Array(source as any))),
+    });
+    return fontFace;
+  };
+
+  const restoreHandler = patch(document.fonts, 'add', function (original) {
+    return function (this: FontFaceSet, fontFace: FontFace) {
+      setTimeout(() => {
+        const p = fontMap.get(fontFace);
+        if (p) {
+          cb(p);
+          fontMap.delete(fontFace);
+        }
+      }, 0);
+      return original.apply(this, [fontFace]);
+    };
+  });
+
+  handlers.push(() => {
+    // tslint:disable-next-line: no-any
+    (window as any).FonFace = originalFontFace;
+  });
+  handlers.push(restoreHandler);
+
+  return () => {
+    handlers.forEach((h) => h());
+  };
+}
+
+function mergeHooks(o: observerParam, hooks: hooksParam) {
   const {
     mutationCb,
     mousemoveCb,
     mouseInteractionCb,
+    viewportResizeCb,
+    mediaInteractionCb,
+    styleSheetRuleCb,
+    canvasMutationCb,
+    fontCb,
     inputCb,
     scrollCb,
     doc,
@@ -431,17 +514,115 @@ export default function initObservers(o: observerParam): listenerHandler {
     ignoreClass,
     dimension,
   } = o;
-  const mutationObserver = initMutationObserver(mutationCb, doc, blockClass);
-  const mousemoveHandler = initMousemoveObserver(mousemoveCb, doc, dimension);
-  const mouseInteractionHandler = initMouseInteractionObserver(
-    mouseInteractionCb,
-    doc,
-    dimension,
-    blockClass,
+  o.mutationCb = (...p: Arguments<mutationCallBack>) => {
+    if (hooks.mutation) {
+      hooks.mutation(...p);
+    }
+    mutationCb(...p);
+  };
+  o.mousemoveCb = (...p: Arguments<mousemoveCallBack>) => {
+    if (hooks.mousemove) {
+      hooks.mousemove(...p);
+    }
+    mousemoveCb(...p);
+  };
+  o.mouseInteractionCb = (...p: Arguments<mouseInteractionCallBack>) => {
+    if (hooks.mouseInteraction) {
+      hooks.mouseInteraction(...p);
+    }
+    mouseInteractionCb(...p);
+  };
+  o.scrollCb = (...p: Arguments<scrollCallback>) => {
+    if (hooks.scroll) {
+      hooks.scroll(...p);
+    }
+    scrollCb(...p);
+  };
+  o.viewportResizeCb = (...p: Arguments<viewportResizeCallback>) => {
+    if (hooks.viewportResize) {
+      hooks.viewportResize(...p);
+    }
+    viewportResizeCb(...p);
+  };
+  o.inputCb = (...p: Arguments<inputCallback>) => {
+    if (hooks.input) {
+      hooks.input(...p);
+    }
+    inputCb(...p);
+  };
+  o.mediaInteractionCb = (...p: Arguments<mediaInteractionCallback>) => {
+    if (hooks.mediaInteaction) {
+      hooks.mediaInteaction(...p);
+    }
+    mediaInteractionCb(...p);
+  };
+  o.styleSheetRuleCb = (...p: Arguments<styleSheetRuleCallback>) => {
+    if (hooks.styleSheetRule) {
+      hooks.styleSheetRule(...p);
+    }
+    styleSheetRuleCb(...p);
+  };
+  o.canvasMutationCb = (...p: Arguments<canvasMutationCallback>) => {
+    if (hooks.canvasMutation) {
+      hooks.canvasMutation(...p);
+    }
+    canvasMutationCb(...p);
+  };
+  o.fontCb = (...p: Arguments<fontCallback>) => {
+    if (hooks.font) {
+      hooks.font(...p);
+    }
+    fontCb(...p);
+  };
+}
+
+export function initObservers(
+  o: observerParam,
+  hooks: hooksParam = {},
+): listenerHandler {
+  mergeHooks(o, hooks);
+  const mutationObserver = initMutationObserver(
+    o.mutationCb,
+    o.blockClass,
+    o.inlineStylesheet,
+    o.maskInputOptions,
+    o.recordCanvas,
+    o.doc,
   );
-  const scrollHandler = initScrollObserver(scrollCb, doc, blockClass);
+  const mousemoveHandler = initMoveObserver(o.mousemoveCb, o.sampling, o.dimension, o.doc);
+  const mouseInteractionHandler = initMouseInteractionObserver(
+    o.mouseInteractionCb,
+    o.blockClass,
+    o.sampling,
+    o.dimension,
+    o.doc
+  );
+
+  const scrollHandler = initScrollObserver(
+    o.scrollCb,
+    o.blockClass,
+    o.sampling,
+    o.doc
+  );
   const viewportResizeHandler = initViewportResizeObserver(o.viewportResizeCb);
-  const inputHandler = initInputObserver(inputCb, doc, blockClass, ignoreClass);
+  const inputHandler = initInputObserver(
+    o.inputCb,
+    o.blockClass,
+    o.ignoreClass,
+    o.maskInputOptions,
+    o.sampling,
+    o.doc,
+  );
+  const mediaInteractionHandler = initMediaInteractionObserver(
+    o.mediaInteractionCb,
+    o.blockClass,
+  );
+  const styleSheetObserver = initStyleSheetObserver(o.styleSheetRuleCb);
+  const canvasMutationObserver = o.recordCanvas
+    ? initCanvasMutationObserver(o.canvasMutationCb, o.blockClass)
+    : () => {};
+  const fontObserver = o.collectFonts ? initFontObserver(o.fontCb) : () => {};
+
   return () => {
     mutationObserver.disconnect();
     mousemoveHandler();
@@ -449,5 +630,9 @@ export default function initObservers(o: observerParam): listenerHandler {
     scrollHandler();
     viewportResizeHandler();
     inputHandler();
+    mediaInteractionHandler();
+    styleSheetObserver();
+    canvasMutationObserver();
+    fontObserver();
   };
 }
