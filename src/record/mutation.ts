@@ -94,6 +94,7 @@ class DoubleLinkedList {
       }
     }
     if (n.__ln) {
+      // @ts-ignore
       delete n.__ln;
     }
     this.length--;
@@ -140,6 +141,7 @@ export default class MutationBuffer {
   private droppedSet = new Set<Node>();
 
   private emissionCallback: mutationCallBack;
+  private doc: any;
   private blockClass: blockClass;
   private inlineStylesheet: boolean;
   private maskInputOptions: MaskInputOptions;
@@ -147,11 +149,13 @@ export default class MutationBuffer {
 
   public init(
     cb: mutationCallBack,
+    doc: any,
     blockClass: blockClass,
     inlineStylesheet: boolean,
     maskInputOptions: MaskInputOptions,
     recordCanvas: boolean,
   ) {
+    this.doc = doc;
     this.blockClass = blockClass;
     this.inlineStylesheet = inlineStylesheet;
     this.maskInputOptions = maskInputOptions;
@@ -211,12 +215,13 @@ export default class MutationBuffer {
         nextId,
         node: serializeNodeWithId(
           n,
-          document,
+          this.doc,
           mirror.map,
           this.blockClass,
           true,
           this.inlineStylesheet,
           this.maskInputOptions,
+          {}, // @@@@待定改动 - slimDOMOptions
           this.recordCanvas,
         )!,
       });
@@ -350,7 +355,7 @@ export default class MutationBuffer {
         }
         // overwrite attribute if the mutations was triggered in same time
         item.attributes[m.attributeName!] = transformAttribute(
-          document,
+          this.doc,
           m.attributeName!,
           value!,
         );

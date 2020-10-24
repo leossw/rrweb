@@ -94,7 +94,7 @@ export type scrollData = {
 
 export type viewportResizeData = {
   source: IncrementalSource.ViewportResize;
-} & viewportResizeDimention;
+} & viewportResizeDimension;
 
 export type inputData = {
   source: IncrementalSource.Input;
@@ -202,6 +202,8 @@ export type observerParam = {
   sampling: SamplingStrategy;
   recordCanvas: boolean;
   collectFonts: boolean;
+  doc: Document;
+  dimension: documentDimension;
 };
 
 export type hooksParam = {
@@ -348,12 +350,12 @@ export type fontParam = {
 
 export type fontCallback = (p: fontParam) => void;
 
-export type viewportResizeDimention = {
+export type viewportResizeDimension = {
   width: number;
   height: number;
 };
 
-export type viewportResizeCallback = (d: viewportResizeDimention) => void;
+export type viewportResizeCallback = (d: viewportResizeDimension) => void;
 
 export type inputValue = {
   text: string;
@@ -361,6 +363,11 @@ export type inputValue = {
 };
 
 export type inputCallback = (v: inputValue & { id: number }) => void;
+
+export type documentDimension = {
+  x: number;
+  y: number;
+};
 
 export const enum MediaInteractions {
   Play,

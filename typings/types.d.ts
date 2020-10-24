@@ -75,7 +75,7 @@ export declare type scrollData = {
 } & scrollPosition;
 export declare type viewportResizeData = {
     source: IncrementalSource.ViewportResize;
-} & viewportResizeDimention;
+} & viewportResizeDimension;
 export declare type inputData = {
     source: IncrementalSource.Input;
     id: number;
@@ -256,11 +256,11 @@ export declare type fontParam = {
     descriptors?: FontFaceDescriptors;
 };
 export declare type fontCallback = (p: fontParam) => void;
-export declare type viewportResizeDimention = {
+export declare type viewportResizeDimension = {
     width: number;
     height: number;
 };
-export declare type viewportResizeCallback = (d: viewportResizeDimention) => void;
+export declare type viewportResizeCallback = (d: viewportResizeDimension) => void;
 export declare type inputValue = {
     text: string;
     isChecked: boolean;

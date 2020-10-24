@@ -35,6 +35,7 @@ import {
   canvasMutationCallback,
   fontCallback,
   fontParam,
+  documentDimension,
 } from '../types';
 import MutationBuffer from './mutation';
 
@@ -46,10 +47,12 @@ function initMutationObserver(
   inlineStylesheet: boolean,
   maskInputOptions: MaskInputOptions,
   recordCanvas: boolean,
+  doc: Document,
 ): MutationObserver {
   // see mutation.ts for details
   mutationBuffer.init(
     cb,
+    doc,
     blockClass,
     inlineStylesheet,
     maskInputOptions,
@@ -58,7 +61,7 @@ function initMutationObserver(
   const observer = new MutationObserver(
     mutationBuffer.processMutations.bind(mutationBuffer)
   );
-  observer.observe(document, {
+  observer.observe(doc, {
     attributes: true,
     attributeOldValue: true,
     characterData: true,
@@ -72,6 +75,8 @@ function initMutationObserver(
 function initMoveObserver(
   cb: mousemoveCallBack,
   sampling: SamplingStrategy,
+  doc: Document,
+  dimension: documentDimension,
 ): listenerHandler {
   if (sampling.mousemove === false) {
     return () => {};
@@ -104,8 +109,8 @@ function initMoveObserver(
         timeBaseline = Date.now();
       }
       positions.push({
-        x: clientX,
-        y: clientY,
+        x: dimension.x + clientX,
+        y: dimension.y + clientY,
         id: mirror.getId(target as INode),
         timeOffset: Date.now() - timeBaseline,
       });
@@ -117,8 +122,8 @@ function initMoveObserver(
     },
   );
   const handlers = [
-    on('mousemove', updatePosition),
-    on('touchmove', updatePosition),
+    on('mousemove', updatePosition, doc),
+    on('touchmove', updatePosition, doc),
   ];
   return () => {
     handlers.forEach((h) => h());
@@ -129,6 +134,8 @@ function initMouseInteractionObserver(
   cb: mouseInteractionCallBack,
   blockClass: blockClass,
   sampling: SamplingStrategy,
+  doc: Document,
+  dimension: documentDimension,
 ): listenerHandler {
   if (sampling.mouseInteraction === false) {
     return () => {};
@@ -152,8 +159,8 @@ function initMouseInteractionObserver(
       cb({
         type: MouseInteractions[eventKey],
         id,
-        x: clientX,
-        y: clientY,
+        x: dimension.x + clientX,
+        y: dimension.y + clientY,
       });
     };
   };
@@ -167,7 +174,7 @@ function initMouseInteractionObserver(
     .forEach((eventKey: keyof typeof MouseInteractions) => {
       const eventName = eventKey.toLowerCase();
       const handler = getHandler(eventKey);
-      handlers.push(on(eventName, handler));
+      handlers.push(on(eventName, handler, doc));
     });
   return () => {
     handlers.forEach((h) => h());
@@ -178,14 +185,15 @@ function initScrollObserver(
   cb: scrollCallback,
   blockClass: blockClass,
   sampling: SamplingStrategy,
+  doc: Document,
 ): listenerHandler {
   const updatePosition = throttle<UIEvent>((evt) => {
     if (!evt.target || isBlocked(evt.target as Node, blockClass)) {
       return;
     }
     const id = mirror.getId(evt.target as INode);
-    if (evt.target === document) {
-      const scrollEl = (document.scrollingElement || document.documentElement)!;
+    if (evt.target === doc) {
+      const scrollEl = (doc.scrollingElement || doc.documentElement)!;
       cb({
         id,
         x: scrollEl.scrollLeft,
@@ -199,7 +207,7 @@ function initScrollObserver(
       });
     }
   }, sampling.scroll || 100);
-  return on('scroll', updatePosition);
+  return on('scroll', updatePosition, doc);
 }
 
 function initViewportResizeObserver(
@@ -224,6 +232,7 @@ function initInputObserver(
   ignoreClass: string,
   maskInputOptions: MaskInputOptions,
   sampling: SamplingStrategy,
+  doc: Document,
 ): listenerHandler {
   function eventHandler(event: Event) {
     const { target } = event;
@@ -259,7 +268,7 @@ function initInputObserver(
     // the other radios with the same name attribute will be unchecked.
     const name: string | undefined = (target as HTMLInputElement).name;
     if (type === 'radio' && name && isChecked) {
-      document
+      doc
         .querySelectorAll(`input[type="radio"][name="${name}"]`)
         .forEach((el) => {
           if (el !== target) {
@@ -289,7 +298,7 @@ function initInputObserver(
   const events = sampling.input === 'last' ? ['change'] : ['input', 'change'];
   const handlers: Array<
     listenerHandler | hookResetter
-  > = events.map((eventName) => on(eventName, eventHandler));
+  > = events.map((eventName) => on(eventName, eventHandler, doc));
   const propertyDescriptor = Object.getOwnPropertyDescriptor(
     HTMLInputElement.prototype,
     'value',
@@ -353,6 +362,7 @@ function initStyleSheetObserver(cb: styleSheetRuleCallback): listenerHandler {
 function initMediaInteractionObserver(
   mediaInteractionCb: mediaInteractionCallback,
   blockClass: blockClass,
+  doc: Document,
 ): listenerHandler {
   const handler = (type: 'play' | 'pause') => (event: Event) => {
     const { target } = event;
@@ -364,7 +374,7 @@ function initMediaInteractionObserver(
       id: mirror.getId(target as INode),
     });
   };
-  const handlers = [on('play', handler('play')), on('pause', handler('pause'))];
+  const handlers = [on('play', handler('play'), doc), on('pause', handler('pause'), doc)];
   return () => {
     handlers.forEach((h) => h());
   };
@@ -439,7 +449,7 @@ function initCanvasMutationObserver(
   };
 }
 
-function initFontObserver(cb: fontCallback): listenerHandler {
+function initFontObserver(cb: fontCallback, doc: Document): listenerHandler {
   const handlers: listenerHandler[] = [];
 
   const fontMap = new WeakMap<FontFace, fontParam>();
@@ -465,7 +475,7 @@ function initFontObserver(cb: fontCallback): listenerHandler {
     return fontFace;
   };
 
-  const restoreHandler = patch(document.fonts, 'add', function (original) {
+  const restoreHandler = patch(doc.fonts, 'add', function (original) {
     return function (this: FontFaceSet, fontFace: FontFace) {
       setTimeout(() => {
         const p = fontMap.get(fontFace);
@@ -575,17 +585,21 @@ export function initObservers(
     o.inlineStylesheet,
     o.maskInputOptions,
     o.recordCanvas,
+    o.doc,
   );
-  const mousemoveHandler = initMoveObserver(o.mousemoveCb, o.sampling);
+  const mousemoveHandler = initMoveObserver(o.mousemoveCb, o.sampling, o.doc, o.dimension);
   const mouseInteractionHandler = initMouseInteractionObserver(
     o.mouseInteractionCb,
     o.blockClass,
     o.sampling,
+    o.doc,
+    o.dimension,
   );
   const scrollHandler = initScrollObserver(
     o.scrollCb,
     o.blockClass,
     o.sampling,
+    o.doc,
   );
   const viewportResizeHandler = initViewportResizeObserver(o.viewportResizeCb);
   const inputHandler = initInputObserver(
@@ -594,16 +608,18 @@ export function initObservers(
     o.ignoreClass,
     o.maskInputOptions,
     o.sampling,
+    o.doc,
   );
   const mediaInteractionHandler = initMediaInteractionObserver(
     o.mediaInteractionCb,
     o.blockClass,
+    o.doc,
   );
   const styleSheetObserver = initStyleSheetObserver(o.styleSheetRuleCb);
   const canvasMutationObserver = o.recordCanvas
     ? initCanvasMutationObserver(o.canvasMutationCb, o.blockClass)
     : () => {};
-  const fontObserver = o.collectFonts ? initFontObserver(o.fontCb) : () => {};
+  const fontObserver = o.collectFonts ? initFontObserver(o.fontCb, o.doc) : () => {};
 
   return () => {
     mutationObserver.disconnect();

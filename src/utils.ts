@@ -14,6 +14,7 @@ import {
   mutationData,
   scrollData,
   inputData,
+  documentDimension,
 } from './types';
 import { INode } from 'rrweb-snapshot';
 
@@ -213,6 +214,32 @@ export function isAncestorRemoved(target: INode): boolean {
     return true;
   }
   return isAncestorRemoved((target.parentNode as unknown) as INode);
+}
+
+export const initDimension = { x: 0, y: 0 };
+
+export function getIframeDimensions(): WeakMap<
+  HTMLIFrameElement,
+  documentDimension
+> {
+  let x = 0;
+  let y = 0;
+  const wmap: WeakMap<HTMLIFrameElement, documentDimension> = new WeakMap();
+  function matchIframe(doc: Document) {
+    doc.querySelectorAll('iframe').forEach(iframe => {
+      x += iframe.offsetLeft;
+      y += iframe.offsetTop;
+      wmap.set(iframe, {
+        x,
+        y,
+      });
+      if (iframe.contentDocument) {
+        matchIframe(iframe.contentDocument);
+      }
+    });
+  }
+  matchIframe(document);
+  return wmap;
 }
 
 export function isTouchEvent(

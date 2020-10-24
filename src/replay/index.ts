@@ -1,4 +1,4 @@
-import { rebuild, buildNodeWithSN, INode, NodeType } from 'rrweb-snapshot';
+import { rebuild, buildNodeWithSN, INode, NodeType, callbackArray } from 'rrweb-snapshot';
 import * as mittProxy from 'mitt';
 import { polyfill as smoothscrollPolyfill } from './smoothscroll';
 import { Timer } from './timer';
@@ -11,7 +11,7 @@ import {
   MouseInteractions,
   playerConfig,
   playerMetaData,
-  viewportResizeDimention,
+  viewportResizeDimension,
   missingNodeMap,
   addedNodeMutation,
   missingNode,
@@ -334,7 +334,7 @@ export class Replayer {
     }
   }
 
-  private handleResize(dimension: viewportResizeDimention) {
+  private handleResize(dimension: viewportResizeDimension) {
     for (const el of [this.mouseTail, this.iframe]) {
       if (!el) {
         continue;
@@ -941,12 +941,17 @@ export class Replayer {
         return queue.push(mutation);
       }
 
+      const cbs: callbackArray = [];
+
       const target = buildNodeWithSN(
         mutation.node,
         this.iframe.contentDocument,
         mirror.map,
+        cbs,
         true,
-      ) as Node;
+      )[0] as Node;
+
+      cbs.forEach(f => f());
 
       // legacy data, we should not have -1 siblings any more
       if (mutation.previousId === -1 || mutation.nextId === -1) {

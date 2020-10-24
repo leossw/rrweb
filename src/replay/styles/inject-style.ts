@@ -1,5 +1,6 @@
 const rules: (blockClass: string) => string[] = (blockClass: string) => [
-  `iframe, .${blockClass} { background: #ccc }`,
+  // `iframe, .${blockClass} { background: #ccc }`,
+  `.${blockClass} { background: #ccc }`,
   'noscript { display: none !important; }',
 ];
 
