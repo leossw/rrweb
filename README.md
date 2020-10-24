@@ -76,3 +76,4 @@ In addition to adding integration tests and unit tests, rrweb also provides a RE
     <img width="260px" src="https://www.rrweb.io/logos/smartx.png">
   </a>
 </p>
+
